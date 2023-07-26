@@ -1,7 +1,7 @@
 package Rebuilder
 
 import (
-	"DuckBox/controllers"
+	"DuckBox/conf"
 	"DuckBox/models"
 	"fmt"
 	"github.com/astaxie/beego/orm"
@@ -69,8 +69,8 @@ func GetExistingDocumentsID(indexName string) ([]string, error) {
 
 	client := meilisearch.NewClient(
 		meilisearch.ClientConfig{
-			Host:   controllers.MeiliSearchHost,
-			APIKey: controllers.MeiliSearchAPIKey,
+			Host:   conf.AppConfig.MeiliSearch.ToHost(),
+			APIKey: conf.AppConfig.MeiliSearch.ApiKey,
 		},
 	)
 

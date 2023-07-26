@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"DuckBox/Define"
+	"DuckBox/conf"
 	"DuckBox/models"
 	"encoding/json"
 	"errors"
@@ -97,8 +98,8 @@ func (this *HandlerVideoToSendSearch) updateSearchClient(videoId string) error {
 	}
 	//
 	client := meilisearch.NewClient(meilisearch.ClientConfig{
-		Host:    MeiliSearchHost,
-		APIKey:  MeiliSearchAPIKey,
+		Host:    conf.AppConfig.MeiliSearch.ToHost(),
+		APIKey:  conf.AppConfig.MeiliSearch.ApiKey,
 		Timeout: 1000 * 60 * 5,
 	})
 
@@ -120,8 +121,8 @@ func (this *HandlerVideoToSendSearch) updateSearchClient(videoId string) error {
 func (this *HandlerVideoToSendSearch) removeDocument(videoId string) error {
 
 	client := meilisearch.NewClient(meilisearch.ClientConfig{
-		Host:    MeiliSearchHost,
-		APIKey:  MeiliSearchAPIKey,
+		Host:    conf.AppConfig.MeiliSearch.ToHost(),
+		APIKey:  conf.AppConfig.MeiliSearch.ApiKey,
 		Timeout: 1000 * 60 * 5,
 	})
 

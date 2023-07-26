@@ -40,3 +40,11 @@ type Microservices struct {
 		Key string `json:"key" yaml:"key"`
 	} `json:"api" yaml:"api"`
 }
+
+func (this *MeiliSearch) ToHost() string {
+
+	if this.Port == "" || this.Port == "443" {
+		return "https://" + this.Address
+	}
+	return "http://" + this.Address + ":" + this.Port
+}

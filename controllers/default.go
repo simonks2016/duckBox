@@ -10,9 +10,6 @@ const (
 	LogAlert     = 4
 	LogEmergency = 5
 
-	MeiliSearchHost   = "http://localhost:7700"
-	MeiliSearchAPIKey = "7Ow5P0k-gu6Ss40iPehILYCyKZQI8ACjRfm5NZh9C48"
-
 	MeiliSearchIndexVideo   = "video"
 	MeiliSearchIndexProgram = "program"
 )

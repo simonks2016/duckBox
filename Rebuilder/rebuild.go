@@ -2,6 +2,7 @@ package Rebuilder
 
 import (
 	"DuckBox/Define"
+	"DuckBox/conf"
 	"DuckBox/controllers"
 	"fmt"
 	"github.com/meilisearch/meilisearch-go"
@@ -54,8 +55,8 @@ func RebuildVideoIndex() error {
 	controllers.Log("更新文档具体ID，正在与MeiliSearch连接", strings.Join(d3, ","), controllers.LogInfo)
 	//与meiliSearch 连接
 	client := meilisearch.NewClient(meilisearch.ClientConfig{
-		Host:   controllers.MeiliSearchHost,
-		APIKey: controllers.MeiliSearchAPIKey,
+		Host:   conf.AppConfig.MeiliSearch.ToHost(),
+		APIKey: conf.AppConfig.MeiliSearch.ApiKey,
 	})
 	//插入文档
 	r1, err := client.Index(controllers.MeiliSearchIndexVideo).AddDocuments(&insertDocument, "id")
@@ -120,8 +121,8 @@ func RebuildProgramIndex() error {
 	controllers.Log("更新文档具体ID，正在与MeiliSearch连接", strings.Join(d3, ","), controllers.LogInfo)
 	//与meiliSearch 连接
 	client := meilisearch.NewClient(meilisearch.ClientConfig{
-		Host:   controllers.MeiliSearchHost,
-		APIKey: controllers.MeiliSearchAPIKey,
+		Host:   conf.AppConfig.MeiliSearch.ToHost(),
+		APIKey: conf.AppConfig.MeiliSearch.ApiKey,
 	})
 	//插入文档
 	r1, err := client.Index(controllers.MeiliSearchIndexProgram).AddDocuments(&insertDocument, "id")
