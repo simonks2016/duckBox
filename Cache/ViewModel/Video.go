@@ -1,0 +1,25 @@
+package ViewModel
+
+import (
+	"github.com/simonks2016/Subway/ViewModel"
+)
+
+type Video struct {
+	Title       string `json:"title"`
+	Thumb       string `json:"thumb"`
+	Id          string `json:"id"`
+	CreateTime  int64  `json:"create_time"`
+	GIF         string `json:"gif"`
+	Description string `json:"description"`
+	State       int    `json:"state"`
+	Creator     string `json:"creator"`
+
+	ViewModel.ModelOperation[Video] `json:"-"`
+}
+
+func NewVideo() *Video {
+
+	var p Video
+	p.ModelOperation = ViewModel.NewBasicModelOperation[Video](Pool, &p)
+	return &p
+}

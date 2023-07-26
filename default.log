@@ -1,0 +1,141 @@
+2023/06/29 16:28:36.204 [E] [SendProgramToSearch.go:34]  handle-program:incorrect item type
+2023/06/29 16:30:06.250 [E] [SendProgramToSearch.go:34]  handle-program:incorrect item type
+2023/06/29 16:54:24.470 [E] [SendProgramToSearch.go:34]  handle-program:MeilisearchTimeoutError (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/06/29 16:55:31.545 [E] [SendProgramToSearch.go:34]  handle-program:MeilisearchTimeoutError (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/06/29 16:55:54.485 [E] [SendProgramToSearch.go:34]  handle-program:MeilisearchTimeoutError (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/06/29 16:57:01.584 [E] [SendProgramToSearch.go:34]  handle-program:MeilisearchTimeoutError (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/06/29 16:58:54.584 [E] [SendProgramToSearch.go:34]  handle-program:MeilisearchTimeoutError (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/06/29 17:00:01.680 [E] [SendProgramToSearch.go:34]  handle-program:MeilisearchTimeoutError (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/06/29 17:03:24.690 [E] [SendProgramToSearch.go:34]  handle-program:MeilisearchTimeoutError (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/06/29 17:04:31.688 [E] [SendProgramToSearch.go:34]  handle-program:MeilisearchTimeoutError (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/06/29 17:09:24.787 [E] [SendProgramToSearch.go:34]  handle-program:MeilisearchTimeoutError (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/06/29 17:10:31.690 [E] [SendProgramToSearch.go:34]  handle-program:MeilisearchTimeoutError (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/07/03 16:11:14.697 [E] [main.go:62]  new-consumer:missing port
+2023/07/03 16:11:14.697 [E] [main.go:62]  new-consumer:missing port
+2023/07/03 16:11:14.697 [E] [main.go:62]  new-consumer:missing port
+2023/07/03 16:11:14.697 [E] [main.go:62]  new-consumer:missing port
+2023/07/03 16:11:14.697 [E] [main.go:62]  new-consumer:missing port
+2023/07/04 00:38:27.160 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402307 1688402307 1688402307 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:39:57.248 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402307 1688402307 1688402307 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:42:57.338 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402307 1688402307 1688402307 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:44:52.994 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402692 1688402692 1688402692 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:46:23.035 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402692 1688402692 1688402692 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:46:55.046 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402792 1688402792 1688402792 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:47:59.050 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402307 1688402307 1688402307 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:49:03.053 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402792 1688402792 1688402792 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:50:56.671 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402692 1688402692 1688402692 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:50:56.676 [E] [Order.go:187]  new-subscribe-member:json: unsupported type: func() (redis.Conn, error)
+2023/07/04 00:50:58.679 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402792 1688402792 1688402792 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:50:58.698 [E] [Order.go:187]  new-subscribe-member:json: unsupported type: func() (redis.Conn, error)
+2023/07/04 00:52:49.554 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403169 1688403169 1688403169 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:52:49.558 [E] [Order.go:187]  new-subscribe-member:dial tcp: address localhost: missing port in address
+2023/07/04 00:53:59.142 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402307 1688402307 1688402307 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:53:59.153 [E] [Order.go:187]  new-subscribe-member:dial tcp: address localhost: missing port in address
+2023/07/04 00:54:19.642 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403169 1688403169 1688403169 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:54:19.652 [E] [Order.go:187]  new-subscribe-member:dial tcp: address localhost: missing port in address
+2023/07/04 00:57:03.277 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402692 1688402692 1688402692 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:57:03.279 [E] [Order.go:187]  new-subscribe-member:dial tcp: address localhost: missing port in address
+2023/07/04 00:57:05.282 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402792 1688402792 1688402792 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:57:05.284 [E] [Order.go:187]  new-subscribe-member:dial tcp: address localhost: missing port in address
+2023/07/04 00:57:45.529 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403169 1688403169 1688403169 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 00:57:45.534 [E] [Order.go:195]  new-subscribe-member:ERR wrong number of arguments for 'expire' command
+2023/07/04 01:01:10.977 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403670 1688403670 1688403670 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:01:10.985 [E] [Order.go:195]  new-subscribe-member:ERR wrong number of arguments for 'expire' command
+2023/07/04 01:01:54.248 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403714 1688403714 1688403714 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:01:54.254 [E] [Order.go:208]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:02:15.540 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403169 1688403169 1688403169 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:02:15.549 [E] [Order.go:208]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:02:41.039 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403670 1688403670 1688403670 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:02:41.050 [E] [Order.go:208]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:03:03.338 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402692 1688402692 1688402692 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:03:03.352 [E] [Order.go:208]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:10:31.977 [I] [Order.go:96]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688402792 1688402792 1688402792 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:10:31.980 [E] [Order.go:211]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:10:33.981 [I] [Order.go:96]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403714 1688403714 1688403714 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:10:34.001 [E] [Order.go:211]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:10:38.002 [I] [Order.go:96]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403670 1688403670 1688403670 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:10:38.006 [E] [Order.go:211]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:10:46.008 [I] [Order.go:96]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403169 1688403169 1688403169 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:10:46.010 [E] [Order.go:211]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:11:34.275 [I] [Order.go:96]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688404294 1688404294 1688404294 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:11:34.281 [E] [Order.go:211]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:13:04.346 [I] [Order.go:96]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688404294 1688404294 1688404294 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:13:04.359 [E] [Order.go:211]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:13:34.048 [I] [Order.go:96]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403714 1688403714 1688403714 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:13:34.056 [E] [Order.go:211]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:15:08.046 [I] [Order.go:96]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403670 1688403670 1688403670 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:15:08.057 [E] [Order.go:211]  new-subscribe-member:An error occurred! error message:redigo: nil returned
+2023/07/04 01:16:10.876 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688404294 1688404294 1688404294 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:16:38.356 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688404598 1688404598 1688404598 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:17:10.946 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688404294 1688404294 1688404294 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:18:04.149 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403714 1688403714 1688403714 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/04 01:21:08.153 [I] [Order.go:95]  new-subscribe-member,&{2S3P0em6Y73Mwihmao7JcDceevm 1688403670 1688403670 1688403670 1 2 0 0 19.99 19.99 19.99 0 0 0 true  [] true <nil> <nil> [] []}
+
+2023/07/25 00:00:51.974 [E] [main.go:58]  rebuild-index:MeilisearchTimeoutError (path "GET /indexes/video/documents" with method "GetDocuments"): timeout. Hint: It might not be working because you're not up to date with the Meilisearch version that GetDocuments call requires.
+2023/07/25 00:05:30.774 [E] [main.go:58]  rebuild-index:MeilisearchTimeoutError (path "GET /indexes/video/documents" with method "GetDocuments"): timeout. Hint: It might not be working because you're not up to date with the Meilisearch version that GetDocuments call requires.
+2023/07/25 00:08:53.204 [E] [main.go:58]  rebuild-index:MeilisearchTimeoutError (path "GET /indexes/video/documents" with method "GetDocuments"): timeout. Hint: It might not be working because you're not up to date with the Meilisearch version that GetDocuments call requires.
+2023/07/25 00:10:35.379 [E] [main.go:58]  rebuild-index:MeilisearchTimeoutError (path "GET /indexes/video/documents" with method "GetDocuments"): timeout. Hint: It might not be working because you're not up to date with the Meilisearch version that GetDocuments call requires.
+2023/07/25 00:12:50.477 [E] [main.go:58]  rebuild-index:unaccepted status code found: 404 expected: [200], MeilisearchApiError Message: Index `video` not found., Code: index_not_found, Type: invalid_request, Link: https://docs.meilisearch.com/errors#index_not_found (path "GET /indexes/video/documents" with method "GetDocuments"). Hint: It might not be working because you're not up to date with the Meilisearch version that GetDocuments call requires.
+2023/07/25 00:14:09.567 [E] [main.go:58]  rebuild-index:unaccepted status code found: 404 expected: [200], MeilisearchApiError Message: Index `video` not found., Code: index_not_found, Type: invalid_request, Link: https://docs.meilisearch.com/errors#index_not_found (path "GET /indexes/video/documents" with method "GetDocuments"). Hint: It might not be working because you're not up to date with the Meilisearch version that GetDocuments call requires.
+2023/07/25 00:18:54.834 [E] [main.go:58]  rebuild-index:unaccepted status code found: 404 expected: [200], MeilisearchApiError Message: Index `video` not found., Code: index_not_found, Type: invalid_request, Link: https://docs.meilisearch.com/errors#index_not_found (path "GET /indexes/video/documents" with method "GetDocuments"). Hint: It might not be working because you're not up to date with the Meilisearch version that GetDocuments call requires.
+2023/07/25 00:30:15.074 [E] [main.go:59]  rebuild-index:MeilisearchTimeoutError (path "POST /indexes/video/documents?primaryKey=id" with method "AddDocuments"): timeout
+2023/07/25 22:30:14.890 [E] [rebuild.go:82]  获取现有索引失败:MeilisearchCommunicationError unable to execute request (path "GET /indexes" with method "GetIndexes"): dial tcp4 127.0.0.1:7700: connect: connection refused
+2023/07/25 22:30:14.895 [E] [rebuild.go:23]  获取现有索引失败:MeilisearchCommunicationError unable to execute request (path "GET /indexes" with method "GetIndexes"): dial tcp4 127.0.0.1:7700: connect: connection refused
+2023/07/25 22:31:03.906 [I] [rebuild.go:93]  更新文档数量,有2个文档需要更新
+2023/07/25 22:31:03.906 [I] [rebuild.go:114]  更新文档具体ID，正在与MeiliSearch连接,2RsBVPjAn8wtLZiPI5ciYs4AK9T,2RsBMymKX4Tq3W8UD05vIlxDekh
+2023/07/25 22:31:03.906 [I] [rebuild.go:31]  更新文档数量,没有文档需要更新
+2023/07/25 22:31:03.908 [E] [rebuild.go:124]  更新搜索索引失败:unaccepted status code found: 400 expected: [202], MeilisearchApiError Message: The `json` payload provided is malformed. `Couldn't serialize document value: data are neither an object nor a list of objects`., Code: malformed_payload, Type: invalid_request, Link: https://docs.meilisearch.com/errors#malformed_payload (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments")
+2023/07/25 22:33:10.530 [I] [rebuild.go:93]  更新文档数量,有2个文档需要更新
+2023/07/25 22:33:10.530 [I] [rebuild.go:115]  更新文档具体ID，正在与MeiliSearch连接,2RsBVPjAn8wtLZiPI5ciYs4AK9T,2RsBMymKX4Tq3W8UD05vIlxDekh
+2023/07/25 22:33:10.532 [E] [rebuild.go:125]  更新搜索索引失败:unaccepted status code found: 400 expected: [202], MeilisearchApiError Message: The `json` payload provided is malformed. `Couldn't serialize document value: data are neither an object nor a list of objects`., Code: malformed_payload, Type: invalid_request, Link: https://docs.meilisearch.com/errors#malformed_payload (path "POST /indexes/program/documents?primaryKey=id" with method "AddDocuments")
+2023/07/25 22:33:10.545 [I] [rebuild.go:31]  更新文档数量,没有文档需要更新
+2023/07/25 22:35:34.087 [I] [rebuild.go:93]  更新文档数量,有2个文档需要更新
+2023/07/25 22:35:34.088 [I] [rebuild.go:116]  没有文档更新,
+2023/07/25 22:35:34.090 [I] [rebuild.go:31]  更新文档数量,没有文档需要更新
+2023/07/25 22:39:06.826 [I] [rebuild.go:94]  更新文档数量,有2个文档需要更新
+2023/07/25 22:39:06.826 [I] [rebuild.go:118]  没有文档更新,
+2023/07/25 22:41:28.940 [I] [rebuild.go:96]  更新文档数量,有2个文档需要更新
+2023/07/25 22:41:28.940 [I] [rebuild.go:120]  没有文档更新,
+2023/07/25 22:41:52.855 [I] [rebuild.go:95]  更新文档数量,有2个文档需要更新
+2023/07/25 22:41:52.855 [I] [rebuild.go:119]  没有文档更新,
+2023/07/25 22:42:46.858 [I] [rebuild.go:95]  更新文档数量,有2个文档需要更新
+2023/07/25 22:42:46.859 [I] [rebuild.go:119]  没有文档更新,
+2023/07/25 22:43:11.900 [I] [rebuild.go:95]  更新文档数量,有2个文档需要更新
+2023/07/25 22:43:11.900 [I] [rebuild.go:119]  没有文档更新,
+2023/07/25 22:53:27.535 [I] [rebuild.go:95]  更新文档数量,有20个文档需要更新
+2023/07/25 22:53:27.536 [I] [rebuild.go:123]  更新文档具体ID，正在与MeiliSearch连接,2OCTjU37bqQSzU7tCZAzBsNhyG9,2OeaDEPlV8nmK8MMS89N9BYMJwb,2OHzcLbWGAXYZbrmgyQt30tTjZK,2OHzGme6qIOql13d0uEZT2FVu37,2OI0b0RxmDGVoGwfjRzJ8yit2It,2OI0cDT1eMi6iy73K81YioaYmSy,2OI0YhiLqFe5xEEh3U9QSLvlgtB,2PuYBoELt8njCIfsb8KtnXwYigH,2Q11WmfyHdQxt3omzEYmzwm09aU,2QJsHHSTI7ByEml7I2qnu4PriaP,2QKLWgDGQqwjZZSX2nuHrIIrqfF,2Rs2drwcP7MHcHIKOqr7okgwEOM,2Rs2W3lGfwmEeAe6YWIvdrTDAlL,2Rs3aK6wJ1Yz6WXjIDrGkHVfuaw,2Rs3GqrNEhf5rI9eIneJRtEKpFF,2Rs7r8xLzQa1yI4Y9jl3mOP2aKg,2Rs7uWfRkpxMfmNamx61KPXLza0,2Rs8cL7sq6wCs71JrsbD8EECLQl,2Rs8EVwsKSTgbshhbtcGAJOyj21,2SqE85B0Z3z1Dc6NCIXycJdotFY
+2023/07/25 22:53:27.546 [I] [rebuild.go:138]  成功更新,成功状态信息:,enqueued
+2023/07/25 22:54:18.882 [I] [rebuild.go:89]  更新文档数量,没有文档需要更新
