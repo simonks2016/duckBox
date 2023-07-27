@@ -23,14 +23,23 @@ func (this *ProgramCacheControllers) HandleMessage(message *nsq.Message) error {
 	switch p.Action {
 	case Define.ActionAdd:
 		if err := this.updateCache(&p.ExtraData, true); err != nil {
+			//log
+			Log("更新缓存时候,发生错误", err.Error(), LogError)
+			//return
 			return err
 		}
 	case Define.ActionEdit:
 		if err := this.updateCache(&p.ExtraData, false); err != nil {
+			//log
+			Log("更新缓存时候,发生错误", err.Error(), LogError)
+			//return
 			return err
 		}
 	case Define.ActionDelete:
 		if err := this.removeProgram(p.ItemId); err != nil {
+			//log
+			Log("删除缓存时候,发生错误", err.Error(), LogError)
+			//return
 			return err
 		}
 	}

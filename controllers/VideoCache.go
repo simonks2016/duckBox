@@ -27,14 +27,23 @@ func (this *VideoCacheControllers) HandleMessage(message *nsq.Message) error {
 	switch p.Action {
 	case Define.ActionAdd:
 		if err := this.switchStatus(p.Status, &p.ExtraData); err != nil {
+			//log
+			Log("更新缓存时候", err.Error(), LogError)
+			//return
 			return err
 		}
 	case Define.ActionEdit:
 		if err := this.updateVideo(&p.ExtraData, false); err != nil {
+			//log
+			Log("更新缓存时候", err.Error(), LogError)
+			//return
 			return err
 		}
 	case Define.ActionDelete:
 		if err := this.removeVideo(p.ItemId); err != nil {
+			//log
+			Log("删除缓存时候", err.Error(), LogError)
+			//return
 			return err
 		}
 	default:
@@ -102,5 +111,13 @@ func (this *VideoCacheControllers) removeVideo(itemId string) error {
 
 	var video = ViewModel.NewVideo()
 	video.Id = itemId
-	return video.Remove()
+
+	if exist, err := video.Exist(itemId); err != nil {
+		return err
+	} else {
+		if exist {
+			return video.Remove()
+		}
+		return nil
+	}
 }

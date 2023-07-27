@@ -9,7 +9,7 @@ require (
 	github.com/meilisearch/meilisearch-go v0.25.0
 	github.com/nsqio/go-nsq v1.1.0
 	github.com/segmentio/ksuid v1.0.4
-	github.com/simonks2016/Subway v0.1.4-beta
+	github.com/simonks2016/Subway v0.1.4-beta.0.20230727083247-817552192832
 	gopkg.in/yaml.v3 v3.0.1
 
 )

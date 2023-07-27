@@ -32,8 +32,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/segmentio/ksuid v1.0.4 h1:sBo2BdShXjmcugAMwjugoGUdUV0pcxY5mW4xKRn3v4c=
 github.com/segmentio/ksuid v1.0.4/go.mod h1:/XUiZBD3kVx5SmUOl55voK5yeAbBNNIed+2O73XgrPE=
-github.com/simonks2016/Subway v0.1.4-beta h1:gh9RPXIWs3z04P+h8p6JfztpLxMFbPZ++OgagEB6oEU=
-github.com/simonks2016/Subway v0.1.4-beta/go.mod h1:zm2G8RDAJ0wjY6ZG3gYU735rQktjLqNpk5nuizGb7So=
+github.com/simonks2016/Subway v0.1.4-beta.0.20230727083247-817552192832 h1:zmrAHfWDahiLJ/4h9ZuoTqrybjXbXcexE7ZyIv4H0t0=
+github.com/simonks2016/Subway v0.1.4-beta.0.20230727083247-817552192832/go.mod h1:zm2G8RDAJ0wjY6ZG3gYU735rQktjLqNpk5nuizGb7So=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
 github.com/stretchr/objx v0.5.0/go.mod h1:Yh+to48EsGEfYuaHDzXPcE3xhTkx73EhmCGUpEOglKo=
