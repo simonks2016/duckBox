@@ -100,9 +100,8 @@ func (this *HandlerProgramToSendSearch) updateSearchClient(programId string) err
 	//
 
 	client := meilisearch.NewClient(meilisearch.ClientConfig{
-		Host:    conf.AppConfig.MeiliSearch.ToHost(),
-		APIKey:  conf.AppConfig.MeiliSearch.ApiKey,
-		Timeout: 1000 * 60 * 5,
+		Host:   conf.AppConfig.MeiliSearch.ToHost(),
+		APIKey: conf.AppConfig.MeiliSearch.ApiKey,
 	})
 
 	_, err := client.Index(MeiliSearchIndexProgram).AddDocuments(&Define.ProgramSearchModel{
