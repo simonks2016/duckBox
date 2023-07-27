@@ -69,7 +69,7 @@ func (this *HandlerVideoToSendSearch) HandleVideoDeleted(p *Define.ICP[models.Pr
 
 func (this *HandlerVideoToSendSearch) HandleVideoEdit(p *Define.ICP[models.Program]) error {
 
-	if strings.Compare(p.ItemType, "program") != 0 {
+	if strings.Compare(p.ItemType, "video") != 0 {
 		return errors.New("incorrect item type")
 	}
 	return this.updateSearchClient(p.ItemId)
@@ -91,6 +91,10 @@ func (this *HandlerVideoToSendSearch) updateSearchClient(videoId string) error {
 
 	if err := o.QueryTable(&models.Video{}).Filter("Id", videoId).One(&video); err != nil {
 		return err
+	}
+
+	if video.State != 1 {
+		return nil
 	}
 
 	if _, err := o.LoadRelated(&video, "Applicant"); err != nil {
@@ -121,9 +125,8 @@ func (this *HandlerVideoToSendSearch) updateSearchClient(videoId string) error {
 func (this *HandlerVideoToSendSearch) removeDocument(videoId string) error {
 
 	client := meilisearch.NewClient(meilisearch.ClientConfig{
-		Host:    conf.AppConfig.MeiliSearch.ToHost(),
-		APIKey:  conf.AppConfig.MeiliSearch.ApiKey,
-		Timeout: 1000 * 60 * 5,
+		Host:   conf.AppConfig.MeiliSearch.ToHost(),
+		APIKey: conf.AppConfig.MeiliSearch.ApiKey,
 	})
 
 	_, err := client.Index(MeiliSearchIndexVideo).DeleteDocument(videoId)

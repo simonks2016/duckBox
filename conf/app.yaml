@@ -2,7 +2,7 @@ nsq:
   address: 172.31.207.179
   port: 4161
 meili_search:
-  address: 172.16.52.10
+  address: search-intranet.yimi.tv
   port: 443
   api_key: YimiTVSearchMasterKey001!@
 mysql:
