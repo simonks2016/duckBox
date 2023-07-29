@@ -15,6 +15,7 @@ const (
 	PayTopic      = "pay"
 	OrderTopic    = "order"
 	RecordTopic   = "record"
+	MessageTopic  = "message"
 
 	StatusCreated             = 1
 	StatusProcessing          = 2

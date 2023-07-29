@@ -27,6 +27,7 @@ func init() {
 	}
 
 	orm.RegisterModel(new(Program))
+	orm.RegisterModel(new(Episodes))
 	orm.RegisterModel(new(Customer))
 	orm.RegisterModel(new(Order))
 	orm.RegisterModel(new(OrderItem))
@@ -38,6 +39,8 @@ func init() {
 	orm.RegisterModel(new(Goods))
 	orm.RegisterModel(new(SKU))
 	orm.RegisterModel(new(SubscribeMember))
+	orm.RegisterModel(new(SystemNotification))
+	orm.RegisterModel(new(InteractiveMessage))
 
 	_ = orm.RunSyncdb("default", false, true)
 }

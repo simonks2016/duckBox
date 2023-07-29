@@ -1,6 +1,7 @@
 package main
 
 import (
+	"DuckBox/Define"
 	"DuckBox/Rebuilder"
 	"DuckBox/conf"
 	"DuckBox/controllers"
@@ -27,29 +28,34 @@ func main() {
 			Callback:    nil,
 		},
 		{
-			TopicName:   "order",
+			TopicName:   Define.OrderTopic,
 			ChannelName: "default-sys",
 			Callback:    &controllers.OrderController{},
 		},
 		{
-			TopicName:   "program",
+			TopicName:   Define.ProgramTopic,
 			ChannelName: "search",
 			Callback:    &controllers.HandlerProgramToSendSearch{},
 		},
 		{
-			TopicName:   "program",
+			TopicName:   Define.ProgramTopic,
 			ChannelName: "cache",
 			Callback:    &controllers.ProgramCacheControllers{},
 		},
 		{
-			TopicName:   "video",
+			TopicName:   Define.VideoTopic,
 			ChannelName: "cache",
 			Callback:    &controllers.VideoCacheControllers{},
 		},
 		{
-			TopicName:   "video",
+			TopicName:   Define.VideoTopic,
 			ChannelName: "search",
 			Callback:    &controllers.HandlerVideoToSendSearch{},
+		},
+		{
+			TopicName:   Define.EpisodesTopic,
+			ChannelName: "cache",
+			Callback:    &controllers.EpisodesCacheControllers{},
 		},
 	}
 

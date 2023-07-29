@@ -139,3 +139,11 @@
 2023/07/25 22:53:27.536 [I] [rebuild.go:123]  更新文档具体ID，正在与MeiliSearch连接,2OCTjU37bqQSzU7tCZAzBsNhyG9,2OeaDEPlV8nmK8MMS89N9BYMJwb,2OHzcLbWGAXYZbrmgyQt30tTjZK,2OHzGme6qIOql13d0uEZT2FVu37,2OI0b0RxmDGVoGwfjRzJ8yit2It,2OI0cDT1eMi6iy73K81YioaYmSy,2OI0YhiLqFe5xEEh3U9QSLvlgtB,2PuYBoELt8njCIfsb8KtnXwYigH,2Q11WmfyHdQxt3omzEYmzwm09aU,2QJsHHSTI7ByEml7I2qnu4PriaP,2QKLWgDGQqwjZZSX2nuHrIIrqfF,2Rs2drwcP7MHcHIKOqr7okgwEOM,2Rs2W3lGfwmEeAe6YWIvdrTDAlL,2Rs3aK6wJ1Yz6WXjIDrGkHVfuaw,2Rs3GqrNEhf5rI9eIneJRtEKpFF,2Rs7r8xLzQa1yI4Y9jl3mOP2aKg,2Rs7uWfRkpxMfmNamx61KPXLza0,2Rs8cL7sq6wCs71JrsbD8EECLQl,2Rs8EVwsKSTgbshhbtcGAJOyj21,2SqE85B0Z3z1Dc6NCIXycJdotFY
 2023/07/25 22:53:27.546 [I] [rebuild.go:138]  成功更新,成功状态信息:,enqueued
 2023/07/25 22:54:18.882 [I] [rebuild.go:89]  更新文档数量,没有文档需要更新
+2023/07/29 14:49:23.878 [I] [rebuild.go:36]  更新文档数量,有10个文档需要更新
+2023/07/29 14:49:23.878 [I] [rebuild.go:55]  更新文档具体ID，正在与MeiliSearch连接,2OArT0PZh1QZjAwnMt9B3XvUyDm,2OBAZqtLNuzNrgASX00fjtSlLZw,2Op6lPOup01Oi4ARsqoDimpCFwN,2Op6ozt0RQbJ9W8wm355isZ1Gwj,2Op6wg6tofurpm3EQ2uPy2x4YSr,2Op71wURfsBkt9wrhmDd4V4WpNm,2Op7BAPUw0WjUhhSK3xc7PrTqy5,2Op7LdTOEk6uKeHZHt1AtbY4EvQ,2Op7rbD7XYJ4OUjwIIaHv51Cs4k,2SpHA0lR3LfzshXaF0od9Sl6P3i
+2023/07/29 14:49:23.918 [I] [rebuild.go:95]  更新文档数量,有20个文档需要更新
+2023/07/29 14:49:23.919 [I] [rebuild.go:121]  更新文档具体ID，正在与MeiliSearch连接,2OCTjU37bqQSzU7tCZAzBsNhyG9,2OeaDEPlV8nmK8MMS89N9BYMJwb,2OHzcLbWGAXYZbrmgyQt30tTjZK,2OHzGme6qIOql13d0uEZT2FVu37,2OI0b0RxmDGVoGwfjRzJ8yit2It,2OI0cDT1eMi6iy73K81YioaYmSy,2OI0YhiLqFe5xEEh3U9QSLvlgtB,2PuYBoELt8njCIfsb8KtnXwYigH,2Q11WmfyHdQxt3omzEYmzwm09aU,2QJsHHSTI7ByEml7I2qnu4PriaP,2QKLWgDGQqwjZZSX2nuHrIIrqfF,2Rs2drwcP7MHcHIKOqr7okgwEOM,2Rs2W3lGfwmEeAe6YWIvdrTDAlL,2Rs3aK6wJ1Yz6WXjIDrGkHVfuaw,2Rs3GqrNEhf5rI9eIneJRtEKpFF,2Rs7r8xLzQa1yI4Y9jl3mOP2aKg,2Rs7uWfRkpxMfmNamx61KPXLza0,2Rs8cL7sq6wCs71JrsbD8EECLQl,2Rs8EVwsKSTgbshhbtcGAJOyj21,2SqE85B0Z3z1Dc6NCIXycJdotFY
+2023/07/29 14:49:23.926 [I] [rebuild.go:69]  成功更新,成功状态信息:,enqueued
+2023/07/29 14:49:24.149 [I] [rebuild.go:136]  成功更新,成功状态信息:,enqueued
+2023/07/29 15:23:32.124 [I] [rebuild.go:90]  更新文档数量,没有文档需要更新
+2023/07/29 15:23:32.147 [I] [rebuild.go:32]  更新文档数量,没有文档需要更新
