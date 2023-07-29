@@ -66,10 +66,14 @@ func (this *EpisodesCacheControllers) UpdateCache(data *models.Episodes) error {
 		var o = orm.NewOrm()
 		//reload episode data
 		if err := o.QueryTable(&models.Episodes{}).Filter("Id", data.Id).One(&e); err != nil {
+			//log
+			Log("查阅数据时候发生错误", err.Error(), LogError)
 			return err
 		}
 		//load program
 		if _, err := o.LoadRelated(&e, "Program"); err != nil {
+			//log
+			Log("查阅节目信息时候发生错误", err.Error(), LogError)
 			return err
 		}
 		data = &e
@@ -92,12 +96,16 @@ func (this *EpisodesCacheControllers) UpdateCache(data *models.Episodes) error {
 	//update episodes
 	err := episodes.Update()
 	if err != nil {
+		//log
+		Log("更新缓存时候发生错误", err.Error(), LogError)
 		return err
 	}
 
 	rand.Seed(time.Now().UnixNano())
 	err = episodes.Expire(int64(86400 * rand.Intn(15)))
 	if err != nil {
+		//log
+		Log("添加过期时间发生错误", err.Error(), LogError)
 		return err
 	}
 
@@ -109,12 +117,16 @@ func (this *EpisodesCacheControllers) UpdateCache(data *models.Episodes) error {
 	//Check if the episode exists
 	member, err := controller.IsMember(episodes.GetDataId())
 	if err != nil {
+		//log
+		Log("检查是否存有该分集时候发生错误", err.Error(), LogError)
 		return err
 	}
 	if !member {
 		//if is not exist
 		err = controller.Add(episodes.GetDataId())
 		if err != nil {
+			//log
+			Log("添加分集时候发生错误", err.Error(), LogError)
 			return err
 		}
 	}
