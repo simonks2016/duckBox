@@ -1,6 +1,11 @@
 package controllers
 
-import "github.com/astaxie/beego/logs"
+import (
+	"fmt"
+	"github.com/sirupsen/logrus"
+	"os"
+	"time"
+)
 
 const (
 	LogDebug     = 0
@@ -14,30 +19,82 @@ const (
 	MeiliSearchIndexProgram = "program"
 )
 
+var (
+	logging *logrus.Logger
+)
+
 func Log(name, msg string, level int) {
 
-	log := logs.NewLogger(10000)
-	_ = log.SetLogger("file", `{"filename":"default.log"}`)
-	log.EnableFuncCallDepth(true)
-	log.SetLogFuncCallDepth(3)
+	fileName := fmt.Sprintf("log/default.log-%s", time.Now().Format("2006-01-02"))
+	var file *os.File
+	var err error
+
+	//log 文件夹是否存在
+	if Exists("log") == false {
+		//不存在则创建log文件夹
+		err = os.Mkdir("log", os.ModePerm)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		//创建文件
+		file, err = os.Create(fileName)
+		if err != nil {
+			return
+		}
+	} else {
+		//该文件是否存在
+		if Exists(fileName) == false {
+			//假如不存在，则创建文件
+			file, err = os.Create(fileName)
+			if err != nil {
+				return
+			}
+		} else {
+			//存在则打开文件
+			file, err = os.OpenFile(
+				fileName, os.O_CREATE|os.O_WRONLY, 0666)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+		}
+	}
+
+	logging = logrus.New()
+
+	logging.SetReportCaller(true)
+	logging.SetFormatter(&logrus.JSONFormatter{
+		DisableTimestamp:  false,
+		DisableHTMLEscape: true,
+	})
+	logging.SetOutput(file)
+
 	switch level {
 	case 0:
 		//调试信息
-		log.Debug("%s:%s", name, msg)
+		logging.Debugf("%s:%s", name, msg)
 	case 1:
 		//输出信息
-		log.Informational("%s,%s", name, msg)
+		logging.Infof("%s,%s", name, msg)
 	case 2:
 		//警告等级
-		log.Warning("%s:%s", name, msg)
+		logging.Warnf("%s:%s", name, msg)
 	case 3:
 		//错误等级
-		log.Error("%s:%s", name, msg)
-	case 4:
-		//提醒信息
-		log.Alert("%s:%s", name, msg)
-	case 5:
-		//紧急信息
-		log.Emergency("%s:%s", name, msg)
+		logging.Errorf("%s:%s", name, msg)
+	default:
+		logging.Infof("%s:%s", name, msg)
 	}
+}
+
+func Exists(path string) bool {
+	_, err := os.Stat(path) //os.Stat获取文件信息
+	if err != nil {
+		if os.IsExist(err) {
+			return true
+		}
+		return false
+	}
+	return true
 }
