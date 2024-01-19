@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"DuckBox/Cache/ViewModel"
+	"DuckBox/DataModel"
 	"DuckBox/Define"
-	"DuckBox/models"
 	"encoding/json"
 	"errors"
 	"github.com/nsqio/go-nsq"
@@ -15,7 +15,7 @@ type VideoCacheControllers struct {
 
 func (this *VideoCacheControllers) HandleMessage(message *nsq.Message) error {
 
-	var p Define.ICP[models.Video]
+	var p Define.ICP[DataModel.Video]
 	//json unmarshal
 	if err := json.Unmarshal(message.Body, &p); err != nil {
 		//log
@@ -54,7 +54,7 @@ func (this *VideoCacheControllers) HandleMessage(message *nsq.Message) error {
 	return nil
 }
 
-func (this *VideoCacheControllers) switchStatus(s int, video *models.Video) error {
+func (this *VideoCacheControllers) switchStatus(s int, video *DataModel.Video) error {
 
 	switch s {
 	case Define.StatusCompleteTranscoding:
@@ -63,7 +63,7 @@ func (this *VideoCacheControllers) switchStatus(s int, video *models.Video) erro
 	return nil
 }
 
-func (this *VideoCacheControllers) updateVideo(v *models.Video, needInsertLine bool) error {
+func (this *VideoCacheControllers) updateVideo(v *DataModel.Video, needInsertLine bool) error {
 
 	var video = ViewModel.NewVideo()
 	video.Title = v.Title

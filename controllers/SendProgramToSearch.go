@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"DuckBox/DataModel"
 	"DuckBox/Define"
 	"DuckBox/conf"
-	"DuckBox/models"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -20,7 +20,7 @@ type HandlerProgramToSendSearch struct {
 func (this *HandlerProgramToSendSearch) HandleMessage(message *nsq.Message) error {
 
 	var body = message.Body
-	var p Define.ICP[models.Program]
+	var p Define.ICP[DataModel.Program]
 
 	if err := json.Unmarshal(body, &p); err != nil {
 		//return error message
@@ -58,7 +58,7 @@ func (this *HandlerProgramToSendSearch) HandleMessage(message *nsq.Message) erro
 	return nil
 }
 
-func (this *HandlerProgramToSendSearch) HandleProgramDeleted(p *Define.ICP[models.Program]) error {
+func (this *HandlerProgramToSendSearch) HandleProgramDeleted(p *Define.ICP[DataModel.Program]) error {
 
 	if strings.Compare(p.ItemType, "program") != 0 {
 		return errors.New("incorrect item type")
@@ -66,7 +66,7 @@ func (this *HandlerProgramToSendSearch) HandleProgramDeleted(p *Define.ICP[model
 	return this.removeDocument(p.ItemId)
 }
 
-func (this *HandlerProgramToSendSearch) HandleProgramEdit(p *Define.ICP[models.Program]) error {
+func (this *HandlerProgramToSendSearch) HandleProgramEdit(p *Define.ICP[DataModel.Program]) error {
 
 	if strings.Compare(p.ItemType, "program") != 0 {
 		return errors.New("incorrect item type")
@@ -74,7 +74,7 @@ func (this *HandlerProgramToSendSearch) HandleProgramEdit(p *Define.ICP[models.P
 	return this.updateSearchClient(p.ItemId)
 }
 
-func (this *HandlerProgramToSendSearch) HandleProgramAdd(p *Define.ICP[models.Program]) error {
+func (this *HandlerProgramToSendSearch) HandleProgramAdd(p *Define.ICP[DataModel.Program]) error {
 
 	if strings.Compare(strings.ToLower(p.ItemType), "program") != 0 {
 		return errors.New("incorrect item type")
@@ -86,9 +86,9 @@ func (this *HandlerProgramToSendSearch) HandleProgramAdd(p *Define.ICP[models.Pr
 func (this *HandlerProgramToSendSearch) updateSearchClient(programId string) error {
 
 	var o = orm.NewOrm()
-	var program models.Program
+	var program DataModel.Program
 
-	if err := o.QueryTable(&models.Program{}).Filter("Id", programId).One(&program); err != nil {
+	if err := o.QueryTable(&DataModel.Program{}).Filter("Id", programId).One(&program); err != nil {
 		return err
 	}
 

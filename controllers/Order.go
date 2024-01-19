@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"DuckBox/Cache/ViewModel"
+	"DuckBox/DataModel"
 	"DuckBox/Define"
-	"DuckBox/models"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -21,7 +21,7 @@ func (this *OrderController) HandleMessage(message *nsq.Message) error {
 
 	var body = message.Body
 
-	var p Define.ICP[models.Order]
+	var p Define.ICP[DataModel.Order]
 	var p1 Define.ICP[Define.CancelOrder]
 	if err := json.Unmarshal(body, &p); err != nil {
 		//return error message
@@ -58,7 +58,7 @@ func (this *OrderController) HandleMessage(message *nsq.Message) error {
 	return nil
 }
 
-func (this *OrderController) switchStatus(status int, order models.Order) error {
+func (this *OrderController) switchStatus(status int, order DataModel.Order) error {
 
 	switch status {
 	case Define.StatusCompletePayment:
@@ -75,7 +75,7 @@ func (this *OrderController) HandleOrderAdd(orderId string) error {
 	return nil
 }
 
-func (this *OrderController) HandleOrderCompletePayment(order models.Order) error {
+func (this *OrderController) HandleOrderCompletePayment(order DataModel.Order) error {
 
 	//If it is a member order
 	if order.IsMemberOrder == true {
@@ -85,7 +85,7 @@ func (this *OrderController) HandleOrderCompletePayment(order models.Order) erro
 	return this.NotifySeller()
 }
 
-func (this *OrderController) AutoDeliveryMember(order *models.Order) error {
+func (this *OrderController) AutoDeliveryMember(order *DataModel.Order) error {
 
 	//log
 	Log("new-subscribe-member",
@@ -101,7 +101,7 @@ func (this *OrderController) AutoDeliveryMember(order *models.Order) error {
 		return err
 	}
 
-	if order.TradingStatus != models.OrderTradingStatusAlreadyPaid {
+	if order.TradingStatus != DataModel.OrderTradingStatusAlreadyPaid {
 		return errors.New("the order status is incorrect")
 	}
 
@@ -116,7 +116,7 @@ func (this *OrderController) AutoDeliveryMember(order *models.Order) error {
 		return errors.New("load order item failed")
 	}
 
-	var benefitsMap = models.DisplayBenefits()
+	var benefitsMap = DataModel.DisplayBenefits()
 
 	for _, item := range order.MemberOrderItem {
 		//load
@@ -126,7 +126,7 @@ func (this *OrderController) AutoDeliveryMember(order *models.Order) error {
 			//return error message
 			return errors.New("failed to load member package ")
 		}
-		if o.QueryTable(&models.SubscribeMember{}).Filter("Order", order).Exist() == true {
+		if o.QueryTable(&DataModel.SubscribeMember{}).Filter("Order", order).Exist() == true {
 			//log
 			Log("new-subscribe-member", "The order has generated a member license", LogError)
 			//return
@@ -134,7 +134,7 @@ func (this *OrderController) AutoDeliveryMember(order *models.Order) error {
 		}
 
 		//make license
-		var newMember = models.SubscribeMember{
+		var newMember = DataModel.SubscribeMember{
 			Id:         ksuid.New().String(),
 			DeadLine:   item.Member.ExpireTime + time.Now().Unix(),
 			CreateTime: time.Now().Unix(),
@@ -213,7 +213,7 @@ func (this *OrderController) AutoDeliveryMember(order *models.Order) error {
 		}
 	}
 
-	order.TradingStatus = models.OrderTradingStatusShipped
+	order.TradingStatus = DataModel.OrderTradingStatusShipped
 	order.Status = 1
 	order.UpdateTime = time.Now().Unix()
 
@@ -241,9 +241,9 @@ func (this *OrderController) NotifySeller() error {
 func (this *OrderController) Review(orderId string, cancelOrder Define.CancelOrder) error {
 
 	var o = orm.NewOrm()
-	var order models.Order
+	var order DataModel.Order
 
-	if err := o.QueryTable(&models.Order{}).Filter("Id", orderId).One(&order); err != nil {
+	if err := o.QueryTable(&DataModel.Order{}).Filter("Id", orderId).One(&order); err != nil {
 		return err
 	}
 
@@ -255,14 +255,14 @@ func (this *OrderController) Review(orderId string, cancelOrder Define.CancelOrd
 			if order.IsPaid == true && order.Due == order.ActuallyPaid {
 				return nil
 			}
-			order.TradingStatus = models.OrderTradingStatusCancel
+			order.TradingStatus = DataModel.OrderTradingStatusCancel
 			break
 		//if overtime not shipped
 		case Define.MachineCancelConditionOvertimeNotShipped:
-			if order.TradingStatus == models.OrderTradingStatusShipped {
+			if order.TradingStatus == DataModel.OrderTradingStatusShipped {
 				return nil
 			}
-			order.TradingStatus = models.OrderTradingStatusCancel
+			order.TradingStatus = DataModel.OrderTradingStatusCancel
 			order.Reimburse = order.ActuallyPaid
 			break
 		default:

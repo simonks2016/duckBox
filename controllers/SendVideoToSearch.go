@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"DuckBox/DataModel"
 	"DuckBox/Define"
 	"DuckBox/conf"
-	"DuckBox/models"
 	"encoding/json"
 	"errors"
 	"github.com/astaxie/beego/orm"
@@ -19,7 +19,7 @@ type HandlerVideoToSendSearch struct {
 func (this *HandlerVideoToSendSearch) HandleMessage(message *nsq.Message) error {
 
 	var body = message.Body
-	var p Define.ICP[models.Program]
+	var p Define.ICP[DataModel.Program]
 
 	if err := json.Unmarshal(body, &p); err != nil {
 		//return error message
@@ -59,7 +59,7 @@ func (this *HandlerVideoToSendSearch) HandleMessage(message *nsq.Message) error 
 	return nil
 }
 
-func (this *HandlerVideoToSendSearch) HandleVideoDeleted(p *Define.ICP[models.Program]) error {
+func (this *HandlerVideoToSendSearch) HandleVideoDeleted(p *Define.ICP[DataModel.Program]) error {
 
 	if strings.Compare(strings.ToLower(p.ItemType), "video") != 0 {
 		return errors.New("incorrect item type")
@@ -67,7 +67,7 @@ func (this *HandlerVideoToSendSearch) HandleVideoDeleted(p *Define.ICP[models.Pr
 	return this.removeDocument(p.ItemId)
 }
 
-func (this *HandlerVideoToSendSearch) HandleVideoEdit(p *Define.ICP[models.Program]) error {
+func (this *HandlerVideoToSendSearch) HandleVideoEdit(p *Define.ICP[DataModel.Program]) error {
 
 	if strings.Compare(p.ItemType, "video") != 0 {
 		return errors.New("incorrect item type")
@@ -75,7 +75,7 @@ func (this *HandlerVideoToSendSearch) HandleVideoEdit(p *Define.ICP[models.Progr
 	return this.updateSearchClient(p.ItemId)
 }
 
-func (this *HandlerVideoToSendSearch) HandleVideoAdd(p *Define.ICP[models.Program]) error {
+func (this *HandlerVideoToSendSearch) HandleVideoAdd(p *Define.ICP[DataModel.Program]) error {
 
 	if strings.Compare(p.ItemType, "program") != 0 {
 		return errors.New("incorrect item type")
@@ -87,9 +87,9 @@ func (this *HandlerVideoToSendSearch) HandleVideoAdd(p *Define.ICP[models.Progra
 func (this *HandlerVideoToSendSearch) updateSearchClient(videoId string) error {
 
 	var o = orm.NewOrm()
-	var video models.Video
+	var video DataModel.Video
 
-	if err := o.QueryTable(&models.Video{}).Filter("Id", videoId).One(&video); err != nil {
+	if err := o.QueryTable(&DataModel.Video{}).Filter("Id", videoId).One(&video); err != nil {
 		return err
 	}
 

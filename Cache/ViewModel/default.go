@@ -9,6 +9,10 @@ import (
 var Pool *redis.Pool
 
 func init() {
+	if conf.AppConfig == nil {
+		return
+	}
+
 	Pool = subway.NewRedisConnWithSubway(
 		conf.AppConfig.Redis.Host+":"+conf.AppConfig.Redis.Port,
 		conf.AppConfig.Redis.Account,

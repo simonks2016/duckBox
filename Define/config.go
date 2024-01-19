@@ -1,10 +1,16 @@
 package Define
 
+import (
+	"fmt"
+	"strings"
+)
+
 type AppConfig struct {
 	NSQ         NSQConfig   `json:"nsq" yaml:"nsq"`
 	MeiliSearch MeiliSearch `json:"meili_search" yaml:"meili_search"`
 	Mysql       Mysql       `json:"mysql" yaml:"mysql"`
 	Redis       Redis       `json:"redis" yaml:"redis"`
+	Gorse       Gorse       `json:"gorse" yaml:"gorse"`
 }
 
 type NSQConfig struct {
@@ -41,10 +47,48 @@ type Microservices struct {
 	} `json:"api" yaml:"api"`
 }
 
+type Gorse struct {
+	Host   string `json:"host" yaml:"host"`
+	ApiKey string `json:"api_key" yaml:"api_key"`
+	Port   string `json:"port" yaml:"port"`
+}
+
 func (this *MeiliSearch) ToHost() string {
 
-	if this.Port == "" || this.Port == "443" {
+	if IsHttpsURL(this.Address) {
+		if len(this.Port) > 0 && strings.Compare(this.Port, "443") != 0 {
+			return this.Address + ":" + this.Port
+		}
+		return this.Address
+	}
+
+	if this.Port == "443" {
 		return "https://" + this.Address
 	}
 	return "http://" + this.Address + ":" + this.Port
+}
+
+func (this *NSQConfig) ToHost() string {
+
+	if len(this.Port) <= 0 {
+		return this.Address
+	}
+	return fmt.Sprintf("%s:%s", this.Address, this.Port)
+}
+
+func (g *Gorse) ToEndPoint() string {
+
+	var endPoint string
+	if !IsHttpsURL(g.Host) {
+		if strings.Compare(g.Port, "443") == 0 {
+			endPoint = "https://" + g.Host
+		} else {
+			endPoint = "http://" + g.Host
+		}
+	}
+	if len(g.Port) <= 0 {
+		return endPoint
+	} else {
+		return endPoint + ":" + g.Port
+	}
 }

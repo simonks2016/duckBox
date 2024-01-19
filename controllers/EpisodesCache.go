@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"DuckBox/Cache/ViewModel"
+	"DuckBox/DataModel"
 	"DuckBox/Define"
-	"DuckBox/models"
 	"encoding/json"
 	"github.com/astaxie/beego/orm"
 	"github.com/nsqio/go-nsq"
@@ -18,7 +18,7 @@ type EpisodesCacheControllers struct {
 func (this *EpisodesCacheControllers) HandleMessage(message *nsq.Message) error {
 
 	var body = message.Body
-	var p Define.ICP[*models.Episodes]
+	var p Define.ICP[*DataModel.Episodes]
 	if err := json.Unmarshal(body, &p); err != nil {
 		//return error message
 		return err
@@ -59,13 +59,13 @@ func (this *EpisodesCacheControllers) HandleMessage(message *nsq.Message) error 
 	return nil
 }
 
-func (this *EpisodesCacheControllers) UpdateCache(data *models.Episodes) error {
+func (this *EpisodesCacheControllers) UpdateCache(data *DataModel.Episodes) error {
 
 	if data.Program == nil {
-		var e models.Episodes
+		var e DataModel.Episodes
 		var o = orm.NewOrm()
 		//reload episode data
-		if err := o.QueryTable(&models.Episodes{}).Filter("Id", data.Id).One(&e); err != nil {
+		if err := o.QueryTable(&DataModel.Episodes{}).Filter("Id", data.Id).One(&e); err != nil {
 			//log
 			Log("查阅数据时候发生错误", err.Error(), LogError)
 			return err
@@ -133,7 +133,7 @@ func (this *EpisodesCacheControllers) UpdateCache(data *models.Episodes) error {
 	return nil
 }
 
-func (this *EpisodesCacheControllers) removeCache(data *models.Episodes) error {
+func (this *EpisodesCacheControllers) removeCache(data *DataModel.Episodes) error {
 
 	var episodes = ViewModel.NewEpisodes()
 	episodes.Id = data.Id

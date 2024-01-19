@@ -1,21 +1,23 @@
 package Define
 
 const (
-	ActionAdd         = "add"
-	ActionEdit        = "edit"
-	ActionDelete      = "delete"
-	ActionUploaded    = "uploaded"
-	ActionTranscoding = "transcoding"
-	ActionReview      = "review"
+	ActionAdd    = "add"
+	ActionEdit   = "edit"
+	ActionDelete = "delete"
+	ActionReview = "review"
 
-	VideoTopic    = "video"
-	ProgramTopic  = "program"
-	EpisodesTopic = "episode"
-	AdTopic       = "ad"
-	PayTopic      = "pay"
-	OrderTopic    = "order"
-	RecordTopic   = "record"
-	MessageTopic  = "message"
+	VideoTopic            = "video"
+	ProgramTopic          = "program"
+	EpisodesTopic         = "episode"
+	AdTopic               = "ad"
+	PayTopic              = "pay"
+	OrderTopic            = "order"
+	RecordTopic           = "record"
+	MessageTopic          = "message"
+	CustomerTopic         = "customer"
+	LikeTopic             = "like"
+	FollowTopic           = "follow"
+	SubscribeProgramTopic = "subscribe_program"
 
 	StatusCreated             = 1
 	StatusProcessing          = 2

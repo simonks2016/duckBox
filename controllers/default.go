@@ -23,8 +23,7 @@ var (
 	logging *logrus.Logger
 )
 
-func Log(name, msg string, level int) {
-
+func init() {
 	fileName := fmt.Sprintf("log/default.log-%s", time.Now().Format("2006-01-02"))
 	var file *os.File
 	var err error
@@ -69,6 +68,9 @@ func Log(name, msg string, level int) {
 		DisableHTMLEscape: true,
 	})
 	logging.SetOutput(file)
+}
+
+func Log(name, msg string, level int) {
 
 	switch level {
 	case 0:

@@ -5,6 +5,9 @@ meili_search:
   address: search.yimi.tv
   port: 443
   api_key: YimiTVSearchMasterKey001!@
+gorse:
+  end_point: localhost
+  api_key: YimiTV@Recommend@001
 mysql:
   host: localhost
   port: 3306

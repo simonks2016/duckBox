@@ -1,0 +1,49 @@
+version: "3"
+services:
+  nsqlookupd:
+    image: nsqio/nsq
+    command: /nsqlookupd
+    ports:
+      - "4160:4160"
+      - "4161:4161"
+    networks:
+      - n1
+  nsqd:
+    image: nsqio/nsq
+    command: /nsqd --lookupd-tcp-address=nsqlookupd:4160 --broadcast-address=127.0.0.1
+    depends_on:
+        - nsqlookupd
+    ports:
+        - "4150:4150"
+        - "4151:4151"
+    networks:
+      - n1
+  nsqadmin:
+    image: nsqio/nsq
+    command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+    depends_on:
+      - nsqlookupd
+    ports:
+      - "4171:4171"
+    networks:
+      - n1
+  meilisearch:
+    container_name: app
+    image: getmeili/meilisearch:latest
+    ports:
+      - "7700:7700"
+    networks:
+      - n1
+    restart: "always"
+    environment:
+      - MEILI_ENV=production
+      - MEILI_MASTER_KEY=YimiTVSearchMasterKey001!@
+      - MEILI_DB_PATH=${MEILI_DB_PATH:-/data.ms}
+      - MEILI_LOG_LEVEL
+    volumes:
+      - /var/lib/meilisearch/data:/data.ms
+networks:
+  n1:
+    driver: bridge
+
+

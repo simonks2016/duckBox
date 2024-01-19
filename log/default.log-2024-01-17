@@ -1,0 +1,2 @@
+{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:81","func":"DuckBox/controllers.Log","level":"info","msg":"更新文档数量,有5000个文档需要更新","time":"2024-01-17T23:08:43+08:00"}
+{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:81","func":"DuckBox/controllers.Log","level":"info","msg":"更新文档数量,有24800个文档需要更新","time":"2024-01-17T23:08:56+08:00"}

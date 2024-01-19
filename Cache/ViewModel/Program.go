@@ -5,19 +5,19 @@ import (
 )
 
 type Program struct {
-	Id           string  `json:"id"`
-	Title        string  `json:"title"`
-	Description  string  `json:"description"`
-	ShowSubtitle string  `json:"show_subtitle"`
-	Poster       string  `json:"poster"`
-	Score        float64 `json:"score"`
-	Creator      string  `json:"creator"`
-	IsAdult      bool    `json:"is_adult"`
-	IsPayProgram bool    `json:"is_pay_program"`
-	Price        float64 `json:"price"`
-	CreateTime   int64   `json:"create_time"`
-	State        int     `json:"state"`
-	Evaluation   int64   `json:"evaluation"`
+	Id           string   `json:"id"`
+	Title        string   `json:"title"`
+	Description  string   `json:"description"`
+	ShowSubtitle string   `json:"show_subtitle"`
+	Poster       string   `json:"poster"`
+	Score        float64  `json:"score"`
+	Creator      *Creator `json:"creator"`
+	IsAdult      bool     `json:"is_adult"`
+	IsPayProgram bool     `json:"is_pay_program"`
+	Price        float64  `json:"price"`
+	CreateTime   int64    `json:"create_time"`
+	State        int      `json:"state"`
+	Evaluation   int64    `json:"evaluation"`
 
 	Episodes string `json:"episodes"`
 

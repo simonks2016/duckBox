@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"DuckBox/Cache/ViewModel"
+	"DuckBox/DataModel"
 	"DuckBox/Define"
-	"DuckBox/models"
 	"encoding/json"
 	"github.com/nsqio/go-nsq"
 )
@@ -14,7 +14,7 @@ type ProgramCacheControllers struct {
 
 func (this *ProgramCacheControllers) HandleMessage(message *nsq.Message) error {
 
-	var p Define.ICP[models.Program]
+	var p Define.ICP[DataModel.Program]
 
 	if err := json.Unmarshal(message.Body, &p); err != nil {
 		return err
@@ -49,7 +49,7 @@ func (this *ProgramCacheControllers) HandleMessage(message *nsq.Message) error {
 	return nil
 }
 
-func (this *ProgramCacheControllers) updateCache(p *models.Program, needInsertLine bool) error {
+func (this *ProgramCacheControllers) updateCache(p *DataModel.Program, needInsertLine bool) error {
 
 	var program = ViewModel.NewProgram()
 	program.Id = p.Id
@@ -62,7 +62,13 @@ func (this *ProgramCacheControllers) updateCache(p *models.Program, needInsertLi
 	program.ShowSubtitle = p.ShowSubTitle
 	program.Poster = p.Poster
 	program.Score = p.Score
-	program.Creator = p.Applicant.Id
+	program.Creator = &ViewModel.Creator{
+		Name:       p.Applicant.Username,
+		Id:         p.Applicant.Id,
+		Icon:       p.Applicant.UserIcon,
+		Background: p.Applicant.UserBackground,
+		BrandName:  p.Applicant.BrandName,
+	}
 	program.Evaluation = p.Evaluation
 	program.State = p.State
 
@@ -79,7 +85,7 @@ func (this *ProgramCacheControllers) updateCache(p *models.Program, needInsertLi
 	if needInsertLine == true {
 		//create a line for program
 		controller := program.CreateLine("CreateTime")
-		//if is exist
+		//if is existed
 		member, err := controller.IsMember(program.GetDataId())
 		if err != nil {
 			return err

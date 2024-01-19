@@ -1,0 +1,7 @@
+{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:81","func":"DuckBox/controllers.Log","level":"info","msg":"更新文档数量,有5000个文档需要更新","time":"2024-01-12T17:57:28+08:00"}
+{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:81","func":"DuckBox/controllers.Log","level":"info","msg":"更新文档数量,有24800个文档需要更新","time":"2024-01-12T17:57:35+08:00"}
+{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:87","func":"DuckBox/controllers.Log","level":"error","msg":"handle-program:incorrect item type","time":"2024-01-12T18:01:32+08:00"}
+{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:87","func":"DuckBox/controllers.Log","level":"error","msg":"handle-program:incorrect item type","time":"2024-01-12T18:03:02+08:00"}
+{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:87","func":"DuckBox/controllers.Log","level":"error","msg":"handle-program:incorrect item type","time":"2024-01-12T18:06:02+08:00"}
+{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:87","func":"DuckBox/controllers.Log","level":"error","msg":"handle-program:incorrect item type","time":"2024-01-12T18:10:32+08:00"}
+{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:87","func":"DuckBox/controllers.Log","level":"error","msg":"handle-program:incorrect item type","time":"2024-01-12T18:16:32+08:00"}

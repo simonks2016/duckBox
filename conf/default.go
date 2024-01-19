@@ -4,6 +4,7 @@ import (
 	"DuckBox/Define"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
+	"strings"
 )
 
 var AppConfig *Define.AppConfig
@@ -24,11 +25,20 @@ func LoadConfig() (*Define.AppConfig, error) {
 		return nil, err
 	}
 
-	var config Define.AppConfig
+	var cf *ConfigFile
 
-	err = yaml.Unmarshal(file, &config)
+	err = yaml.Unmarshal(file, &cf)
 	if err != nil {
 		return nil, err
 	}
-	return &config, nil
+	if strings.ToLower(cf.Mode) == "dev" {
+		return cf.Dev, nil
+	}
+	return cf.Prod, nil
+}
+
+type ConfigFile struct {
+	Mode string            `json:"mode" yaml:"mode"`
+	Dev  *Define.AppConfig `json:"dev" yaml:"dev"`
+	Prod *Define.AppConfig `json:"prod" yaml:"prod"`
 }
