@@ -20,7 +20,7 @@ type Builder struct {
 
 func (b *Builder) BuildVideoIndex() error {
 
-	data, ids, err := GetVideosFromMySQL()
+	data, ids, err := GetVideosFromMySQL(false)
 	if err != nil {
 		//log
 		controllers.Log("获取数据库中文档失败,错误信息:", err.Error(), controllers.LogError)
@@ -57,6 +57,7 @@ func (b *Builder) BuildVideoIndex() error {
 				Viewer:      val.Viewer,
 				CreatorId:   val.Applicant.Id,
 				CreatorName: val.Applicant.Username,
+				State:       val.State,
 			})
 		}
 	}
@@ -108,7 +109,7 @@ func (b *Builder) BuildVideoIndex() error {
 
 func (b *Builder) BuildProgramIndex() error {
 
-	data, ids, err := GetProgramsFromMySQL()
+	data, ids, err := GetProgramsFromMySQL(false)
 	if err != nil {
 		controllers.Log("获取数据库中文档失败,错误信息:", err.Error(), controllers.LogError)
 		return err
@@ -119,7 +120,7 @@ func (b *Builder) BuildProgramIndex() error {
 		controllers.Log("获取现有索引失败", err.Error(), controllers.LogError)
 		return err
 	}
-	d3 := difference(ids, existingDocuments)
+	d3 := difference[string](ids, existingDocuments)
 	if len(d3) <= 0 {
 		//log
 		controllers.Log("更新文档数量", "没有文档需要更新", controllers.LogInfo)
@@ -145,6 +146,7 @@ func (b *Builder) BuildProgramIndex() error {
 				Subscriber:   val.Subscriber,
 				CreatorId:    val.Applicant.Id,
 				CreatorName:  val.Applicant.Username,
+				State:        val.State,
 			})
 		}
 	}
@@ -161,7 +163,7 @@ func (b *Builder) BuildProgramIndex() error {
 	}
 	//index name is program
 	var indexName = controllers.MeiliSearchIndexProgram
-	//if the not set the submit task callback function
+	//if not, set the submit task callback function
 	if b.SubmitTask == nil {
 		if num > limit {
 			return errors.New("the quantity exceeds the limit, please set the SubmitTask Function")
@@ -169,7 +171,7 @@ func (b *Builder) BuildProgramIndex() error {
 		//return the error message
 		return send2MeiliSearch[Define.ProgramSearchModel](indexName, insertDocument)
 	} else {
-		//loop to submit task send document to meili search
+		//loop to submit a task send document to meili search
 		for i := 0; i < p; i++ {
 			//callback function
 			var start, end = i * limit, (i + 1) * limit
@@ -198,12 +200,12 @@ func (b *Builder) BuildProgramIndex() error {
 
 func (b *Builder) BuildRecommendItems() error {
 
-	video, ids, err := GetVideosFromMySQL()
+	video, ids, err := GetVideosFromMySQL(true)
 	if err != nil {
 		return err
 	}
 
-	program, pIds, err := GetProgramsFromMySQL()
+	program, pIds, err := GetProgramsFromMySQL(true)
 	if err != nil {
 		return err
 	}
@@ -222,7 +224,7 @@ func (b *Builder) BuildRecommendItems() error {
 	var vi, pi = id["video"], id["program"]
 	var insertItem []client.Item
 
-	re := difference(ids, vi)
+	re := difference[string](ids, vi)
 
 	for _, s := range re {
 
@@ -238,10 +240,14 @@ func (b *Builder) BuildRecommendItems() error {
 			}
 			//loop to get a tag and make label list
 			var labels []string
-			for _, tag := range val.Tags {
-				//append to the label list
-				labels = append(labels, tag.Name)
+
+			if val.Tags != nil && len(val.Tags) > 0 {
+				for _, tag := range val.Tags {
+					//append to the label list
+					labels = append(labels, tag.Name)
+				}
 			}
+
 			insertItem = append(insertItem, client.Item{
 				ItemId:     Define.MakeItemId("video", val.Id),
 				IsHidden:   val.State != DataModel.VideoStatusNormal,
@@ -254,7 +260,7 @@ func (b *Builder) BuildRecommendItems() error {
 	}
 
 	//make a list of insert program item
-	pre := difference(pIds, pi)
+	pre := difference[string](pIds, pi)
 
 	for _, s := range pre {
 		if val, exist := program[s]; !exist {
@@ -359,7 +365,7 @@ func (g *Builder) BuildRecommendCustomerItem() error {
 		defer group.Done()
 		var insertData []client.User
 		//Find users who have not uploaded
-		d3 := difference(customerId, existCustomer)
+		d3 := difference[string](customerId, existCustomer)
 		//If the array is empty，return, the error message
 		if len(d3) <= 0 {
 			return
@@ -426,7 +432,7 @@ func (g *Builder) BuildRecommendCustomerItem() error {
 
 		defer group.Done()
 		//Find the same elements
-		se := SameElement(customerId, existCustomer)
+		se := SameElement[string](customerId, existCustomer)
 		if len(se) <= 0 {
 			return
 		}
@@ -471,6 +477,63 @@ func (g *Builder) BuildRecommendCustomerItem() error {
 	return nil
 }
 
+func (g *Builder) BuildCheckRecommendItemLabel() error {
+
+	id, err := GetUnlabeledDocuments()
+	if err != nil {
+		return err
+	}
+
+	var video, program = id["video"], id["program"]
+
+	err, videoArray := GetMatchDocumentFromMySQL[*DataModel.Video]("Video", video)
+	if err != nil {
+		return err
+	}
+
+	err, programArray := GetMatchDocumentFromMySQL[*DataModel.Program]("Program", program)
+	if err != nil {
+		return err
+	}
+
+	for _, d := range videoArray {
+
+		if d.Tags != nil {
+
+			var label []string
+			for _, tag := range d.Tags {
+				label = append(label, tag.Name)
+			}
+			err = editItemToGorse(Define.MakeItemId("video", d.Id),
+				client.ItemPatch{
+					Labels: label,
+				})
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	for _, d := range programArray {
+
+		if d.Tags != nil {
+
+			var label []string
+			for _, tag := range d.Tags {
+				label = append(label, tag.Name)
+			}
+			err = editItemToGorse(Define.MakeItemId("program", d.Id),
+				client.ItemPatch{
+					Labels: label,
+				})
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
 func (g *Builder) BuildFeedback() error {
 
 	feedbacks, err := GetFeedBack()
@@ -509,7 +572,7 @@ func (g *Builder) BuildFeedback() error {
 		return err
 	}
 
-	d1 := difference(tmpHash, feedback)
+	d1 := difference[string](tmpHash, feedback)
 	if len(d1) <= 0 {
 		return nil
 	}
@@ -641,4 +704,19 @@ func addFeedback2Gorse(data []client.Feedback) error {
 		return err
 	}
 	return nil
+}
+
+func editItemToGorse(itemId string, item client.ItemPatch) error {
+
+	var ctx = context.TODO()
+	var cli = client.NewGorseClient(
+		conf.AppConfig.Gorse.ToEndPoint(),
+		conf.AppConfig.Gorse.ApiKey,
+	)
+
+	if _, err := cli.UpdateItem(ctx, itemId, item); err != nil {
+		return err
+	} else {
+		return nil
+	}
 }

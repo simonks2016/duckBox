@@ -78,12 +78,18 @@ func (this *SendProgramToGorse) HandleProgramAdd(dataModel *DataModel.Program) e
 	}
 
 	if _, err := o.LoadRelated(&p, "Tags"); err != nil {
-		return err
+		if !errors.Is(err, orm.ErrNoRows) {
+			return err
+		}
+
 	}
 
-	for _, tag := range p.Tags {
-		labels = append(labels, tag.Name)
+	if p.Tags != nil && len(p.Tags) > 0 {
+		for _, tag := range p.Tags {
+			labels = append(labels, tag.Name)
+		}
 	}
+
 	//insert into gorse client
 	_, err := cli.InsertItem(ctx, client.Item{
 		ItemId:     Define.MakeItemId("program", p.Id),
@@ -113,11 +119,15 @@ func (this *SendProgramToGorse) HandleProgramEdit(dataModel *DataModel.Program) 
 	}
 
 	if _, err := o.LoadRelated(&p, "Tags"); err != nil {
-		return err
+		if !errors.Is(err, orm.ErrNoRows) {
+			return err
+		}
 	}
 
-	for _, tag := range p.Tags {
-		labels = append(labels, tag.Name)
+	if p.Tags != nil && len(p.Tags) > 0 {
+		for _, tag := range p.Tags {
+			labels = append(labels, tag.Name)
+		}
 	}
 	IsHidden := p.State != DataModel.VideoStatusNormal
 	//update item

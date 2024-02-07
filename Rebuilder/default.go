@@ -8,13 +8,14 @@ import (
 	"errors"
 	"fmt"
 	"github.com/astaxie/beego/orm"
+	mapset "github.com/deckarep/golang-set/v2"
 	"github.com/meilisearch/meilisearch-go"
 	"github.com/zhenghaoz/gorse/client"
 	"strings"
 	"time"
 )
 
-func GetVideosFromMySQL() (map[string]*DataModel.Video, []string, error) {
+func GetVideosFromMySQL(needTags bool) (map[string]*DataModel.Video, []string, error) {
 
 	var (
 		o           = orm.NewOrm()
@@ -50,6 +51,14 @@ func GetVideosFromMySQL() (map[string]*DataModel.Video, []string, error) {
 				if _, err := o.LoadRelated(video, "Applicant"); err != nil {
 					return nil, nil, err
 				}
+				if needTags == true {
+					//load tags information
+					if _, err = o.LoadRelated(video, "Tags"); err != nil {
+						if !errors.Is(err, orm.ErrNoRows) {
+							return nil, nil, err
+						}
+					}
+				}
 				//
 				responseIds = append(responseIds, video.Id)
 				//if in response
@@ -62,7 +71,7 @@ func GetVideosFromMySQL() (map[string]*DataModel.Video, []string, error) {
 	return response, responseIds, nil
 }
 
-func GetProgramsFromMySQL() (map[string]*DataModel.Program, []string, error) {
+func GetProgramsFromMySQL(needTags bool) (map[string]*DataModel.Program, []string, error) {
 
 	var (
 		o           = orm.NewOrm()
@@ -92,6 +101,16 @@ func GetProgramsFromMySQL() (map[string]*DataModel.Program, []string, error) {
 			for _, program := range result {
 				//
 				responseIds = append(responseIds, program.Id)
+
+				if needTags == true {
+					//load tags
+					if _, err = o.LoadRelated(program, "Tags"); err != nil {
+						//if is not no rows
+						if !errors.Is(err, orm.ErrNoRows) {
+							return nil, nil, err
+						}
+					}
+				}
 				//response
 				if _, exist := response[program.Id]; !exist {
 					response[program.Id] = program
@@ -128,9 +147,9 @@ func GetExistingDocumentsID(indexName string) ([]string, error) {
 		for i := 0; i < 3; i++ {
 			//sleep the 2 minute
 			time.Sleep(time.Minute * 2)
-			//check index is exist
+			//check index exists
 			isExistIndex = CheckIndexExist(indexName, client)
-			//if index is exist
+			//if index exists
 			if isExistIndex {
 				break
 			}
@@ -148,7 +167,7 @@ func GetExistingDocumentsID(indexName string) ([]string, error) {
 	query.Offset = 0
 	query.Fields = []string{"id"}
 
-	//get all document from search
+	//get all documents from search
 	err := client.Index(indexName).GetDocuments(&query, &result)
 	if err != nil {
 		//log
@@ -169,11 +188,11 @@ func GetExistingDocumentsID(indexName string) ([]string, error) {
 			page = page + 1
 		}
 
-		//loop the to get result
-		for i := 0; i < page; i++ {
+		//loop the to get a result
+		for i := 1; i < page; i++ {
 			//loop to get every page
 			err = client.Index(indexName).GetDocuments(&meilisearch.DocumentsQuery{
-				Offset: int64((page - 1) * 200),
+				Offset: int64(i * 200),
 				Limit:  query.Limit,
 			}, &result)
 			//假如出现问题
@@ -189,53 +208,20 @@ func GetExistingDocumentsID(indexName string) ([]string, error) {
 	return response, nil
 }
 
-func difference(newSlice []string, existSlice []string) (response []string) {
+func difference[t comparable](newSlice, existSlice []t) (response []t) {
 
-	var a = make(map[string]bool)
-	for _, s := range existSlice {
-		//if exist the
-		if val, exist := a[s]; exist {
-			continue
-		} else if !val {
-			a[s] = true
-		} else {
-			a[s] = true
-		}
-	}
+	s1 := mapset.NewSet(newSlice...)
+	s2 := mapset.NewSet(existSlice...)
 
-	for _, s := range newSlice {
-		//if they in the d2
-		if _, exist := a[s]; !exist {
-			//append the response
-			response = append(response, s)
-		}
-	}
-	return response
+	return s1.SymmetricDifference(s2).ToSlice()
 }
 
-func SameElement(d []string, existElement []string) (response []string) {
+func SameElement[T comparable](d, existElement []T) []T {
 
-	var a = make(map[string]bool)
+	s1 := mapset.NewSet(d...)
+	s2 := mapset.NewSet(existElement...)
 
-	for _, s := range existElement {
-		//if exist the
-		if val, exist := a[s]; exist {
-			continue
-		} else if !val {
-			a[s] = true
-		} else {
-			a[s] = true
-		}
-	}
-
-	for _, s := range d {
-		//if they in the d2
-		if _, exist := a[s]; exist {
-			//append the response
-			response = append(response, s)
-		}
-	}
-	return response
+	return s1.Intersect(s2).ToSlice()
 }
 
 func GetExistItemsId() (map[string][]string, error) {
@@ -248,7 +234,7 @@ func GetExistItemsId() (map[string][]string, error) {
 	var eMap = make(map[string][]string)
 	var ctx = context.TODO()
 
-	err, s := getDataFromGorseClient("", 100, &existDocumentIds, cli, ctx)
+	err, s := getDataFromGorseClient("", 100, &existDocumentIds, cli, ctx, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -257,7 +243,7 @@ func GetExistItemsId() (map[string][]string, error) {
 		if len(s) <= 0 {
 			break
 		}
-		err, s = getDataFromGorseClient(s, 100, &existDocumentIds, cli, ctx)
+		err, s = getDataFromGorseClient(s, 100, &existDocumentIds, cli, ctx, nil)
 		if err != nil {
 			return nil, err
 		}
@@ -289,7 +275,7 @@ func GetExistItemsId() (map[string][]string, error) {
 	return eMap, nil
 }
 
-func getDataFromGorseClient(cursor string, num int, p *[]string, cli *client.GorseClient, ctx context.Context) (error, string) {
+func getDataFromGorseClient(cursor string, num int, p *[]string, cli *client.GorseClient, ctx context.Context, callback func(item *client.Item) bool) (error, string) {
 
 	//get items
 	items, err := cli.GetItems(ctx, cursor, num)
@@ -297,7 +283,13 @@ func getDataFromGorseClient(cursor string, num int, p *[]string, cli *client.Gor
 		return err, ""
 	}
 	for _, item := range items.Items {
-		*p = append(*p, item.ItemId)
+		if callback != nil {
+			if callback(&item) {
+				*p = append(*p, item.ItemId)
+			}
+		} else {
+			*p = append(*p, item.ItemId)
+		}
 	}
 	return nil, items.Cursor
 }
@@ -726,4 +718,81 @@ func GetExistFeedback(handler func(customerId, itemId, feedbackType string) stri
 		response = append(response, handler(f.UserId, f.ItemId, f.FeedbackType))
 	}
 	return response, nil
+}
+
+func GetUnlabeledDocuments() (map[string][]string, error) {
+
+	var cli = client.NewGorseClient(
+		conf.AppConfig.Gorse.ToEndPoint(),
+		conf.AppConfig.Gorse.ApiKey,
+	)
+	var matchDocumentID []string
+	var eMap = make(map[string][]string)
+	var ctx = context.TODO()
+
+	err, s := getDataFromGorseClient("", 100, &matchDocumentID, cli, ctx,
+		func(item *client.Item) bool {
+			return len(item.Labels) <= 0
+		})
+	if err != nil {
+		return nil, err
+	}
+
+	for {
+		if len(s) <= 0 {
+			break
+		}
+		err, s = getDataFromGorseClient(s, 100, &matchDocumentID, cli, ctx,
+			func(item *client.Item) bool {
+				return len(item.Labels) <= 0
+			},
+		)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	for _, id := range matchDocumentID {
+
+		itemId, err := Define.SplitItemId(id)
+		if err != nil {
+			return nil, err
+		}
+
+		if len(itemId) < 2 {
+			continue
+		}
+
+		key := strings.ToLower(itemId[0])
+
+		if val, exist := eMap[key]; !exist {
+			eMap[key] = []string{itemId[1]}
+		} else {
+			//append
+			val = append(val, itemId[1])
+			//copy
+			eMap[key] = val
+		}
+	}
+
+	return eMap, nil
+}
+
+func GetMatchDocumentFromMySQL[dataModel *DataModel.Video | *DataModel.Program](dataModelName string, ids []string) (error, []dataModel) {
+
+	var o = orm.NewOrm()
+	var data []dataModel
+
+	if _, err := o.QueryTable(dataModelName).Filter("Id__in", ids).All(&data); err != nil {
+		return err, nil
+	}
+
+	for _, datum := range data {
+		if _, err := o.LoadRelated(datum, "Tags"); err != nil {
+			if !errors.Is(err, orm.ErrNoRows) {
+				return err, nil
+			}
+		}
+	}
+	return nil, data
 }

@@ -6,7 +6,6 @@ import (
 	"DuckBox/conf"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/astaxie/beego/orm"
 	"github.com/meilisearch/meilisearch-go"
 	"github.com/nsqio/go-nsq"
@@ -71,7 +70,7 @@ func (this *HandlerProgramToSendSearch) HandleProgramEdit(p *Define.ICP[DataMode
 	if strings.Compare(p.ItemType, "program") != 0 {
 		return errors.New("incorrect item type")
 	}
-	return this.updateSearchClient(p.ItemId)
+	return this.updateDocument2SearchClient(p.ItemId)
 }
 
 func (this *HandlerProgramToSendSearch) HandleProgramAdd(p *Define.ICP[DataModel.Program]) error {
@@ -79,11 +78,11 @@ func (this *HandlerProgramToSendSearch) HandleProgramAdd(p *Define.ICP[DataModel
 	if strings.Compare(strings.ToLower(p.ItemType), "program") != 0 {
 		return errors.New("incorrect item type")
 	}
-	return this.updateSearchClient(p.ItemId)
+	return this.addDocumentToSearchClient(p.ItemId)
 
 }
 
-func (this *HandlerProgramToSendSearch) updateSearchClient(programId string) error {
+func (this *HandlerProgramToSendSearch) addDocumentToSearchClient(programId string) error {
 
 	var o = orm.NewOrm()
 	var program DataModel.Program
@@ -96,7 +95,7 @@ func (this *HandlerProgramToSendSearch) updateSearchClient(programId string) err
 		return err
 	}
 
-	fmt.Println(program.Id)
+	//fmt.Println(program.Id)
 	//
 
 	client := meilisearch.NewClient(meilisearch.ClientConfig{
@@ -115,6 +114,45 @@ func (this *HandlerProgramToSendSearch) updateSearchClient(programId string) err
 		Subscriber:   program.Subscriber,
 		CreatorId:    program.Applicant.Id,
 		CreatorName:  program.Applicant.Username,
+		State:        program.State,
+	}, "id")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (this *HandlerProgramToSendSearch) updateDocument2SearchClient(programId string) error {
+
+	var o = orm.NewOrm()
+	var program DataModel.Program
+
+	if err := o.QueryTable(&DataModel.Program{}).
+		Filter("Id", programId).One(&program); err != nil {
+		return err
+	}
+
+	if _, err := o.LoadRelated(&program, "Applicant"); err != nil {
+		return err
+	}
+
+	client := meilisearch.NewClient(meilisearch.ClientConfig{
+		Host:   conf.AppConfig.MeiliSearch.ToHost(),
+		APIKey: conf.AppConfig.MeiliSearch.ApiKey,
+	})
+
+	_, err := client.Index(MeiliSearchIndexProgram).UpdateDocuments(&Define.ProgramSearchModel{
+		Title:        program.Title,
+		ShowSubtitle: program.ShowSubTitle,
+		Description:  program.Description,
+		Id:           program.Id,
+		Poster:       program.Poster,
+		CreateTime:   program.CreateTime,
+		Viewer:       program.Viewer,
+		Subscriber:   program.Subscriber,
+		CreatorId:    program.Applicant.Id,
+		CreatorName:  program.Applicant.Username,
+		State:        program.State,
 	}, "id")
 	if err != nil {
 		return err

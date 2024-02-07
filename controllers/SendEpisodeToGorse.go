@@ -77,12 +77,16 @@ func (this *SendEpisodeToGorse) HandleAdd(d *DataModel.Episodes) error {
 	}
 
 	if _, err := o.LoadRelated(e.Video, "Tags"); err != nil {
-		return nil
+		if !errors.Is(err, orm.ErrNoRows) {
+			return err
+		}
 	}
 
-	for _, tag := range e.Video.Tags {
-
-		Labels = append(Labels, tag.Name)
+	if len(e.Video.Tags) > 0 {
+		for _, tag := range e.Video.Tags {
+			//labels
+			Labels = append(Labels, tag.Name)
+		}
 	}
 
 	Labels = append(Labels, e.Program.Title)
@@ -122,12 +126,16 @@ func (this *SendEpisodeToGorse) HandleEdit(d *DataModel.Episodes) error {
 	}
 
 	if _, err := o.LoadRelated(e.Video, "Tags"); err != nil {
-		return nil
+		if !errors.Is(err, orm.ErrNoRows) {
+			return nil
+		}
 	}
 
-	for _, tag := range e.Video.Tags {
-
-		Labels = append(Labels, tag.Name)
+	if len(e.Video.Tags) > 0 {
+		for _, tag := range e.Video.Tags {
+			//labels
+			Labels = append(Labels, tag.Name)
+		}
 	}
 
 	Labels = append(Labels, e.Program.Title)

@@ -80,11 +80,15 @@ func (this *SendVideoToGorse) HandleVideoAdd(dataModel *DataModel.Video) error {
 	}
 
 	if _, err := o.LoadRelated(&v, "Tags"); err != nil {
-		return err
+		if !errors.Is(err, orm.ErrNoRows) {
+			return err
+		}
 	}
 
 	if _, err := o.LoadRelated(&v, "Program"); err != nil {
-		return err
+		if !errors.Is(err, orm.ErrNoRows) {
+			return err
+		}
 	}
 
 	if v.Program == nil || len(v.Program.Id) <= 0 {
@@ -93,8 +97,12 @@ func (this *SendVideoToGorse) HandleVideoAdd(dataModel *DataModel.Video) error {
 		category = []string{Define.GorseCategoryVideo}
 	}
 
-	for _, tag := range v.Tags {
-		labels = append(labels, tag.Name)
+	fmt.Println(v.Tags)
+
+	if v.Tags != nil && len(v.Tags) > 0 {
+		for _, tag := range v.Tags {
+			labels = append(labels, tag.Name)
+		}
 	}
 	//insert into gorse client
 	_, err := cli.InsertItem(ctx, client.Item{
@@ -127,21 +135,27 @@ func (this *SendVideoToGorse) HandleVideoEdit(dataModel *DataModel.Video) error 
 	}
 
 	if _, err := o.LoadRelated(&v, "Tags"); err != nil {
-		return err
+		if !errors.Is(err, orm.ErrNoRows) {
+			return err
+		}
 	}
 
 	if _, err := o.LoadRelated(&v, "Program"); err != nil {
-		return err
+		if !errors.Is(err, orm.ErrNoRows) {
+			return err
+		}
 	}
 
 	if v.Program == nil || len(v.Program.Id) <= 0 {
-		category = []string{Define.GorseCategoryEpisode}
-	} else {
 		category = []string{Define.GorseCategoryVideo}
+	} else {
+		category = []string{Define.GorseCategoryEpisode}
 	}
 
-	for _, tag := range v.Tags {
-		labels = append(labels, tag.Name)
+	if v.Tags != nil && len(v.Tags) > 0 {
+		for _, tag := range v.Tags {
+			labels = append(labels, tag.Name)
+		}
 	}
 
 	IsHidden := v.State != DataModel.VideoStatusNormal

@@ -114,6 +114,7 @@ func main() {
 		builder.BuildRecommendItems,
 		builder.BuildRecommendCustomerItem,
 		builder.BuildFeedback,
+		builder.BuildCheckRecommendItemLabel,
 	}
 	//base on the route map to make task list
 

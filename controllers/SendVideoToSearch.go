@@ -19,7 +19,7 @@ type HandlerVideoToSendSearch struct {
 func (this *HandlerVideoToSendSearch) HandleMessage(message *nsq.Message) error {
 
 	var body = message.Body
-	var p Define.ICP[DataModel.Program]
+	var p Define.ICP[DataModel.Video]
 
 	if err := json.Unmarshal(body, &p); err != nil {
 		//return error message
@@ -59,7 +59,7 @@ func (this *HandlerVideoToSendSearch) HandleMessage(message *nsq.Message) error 
 	return nil
 }
 
-func (this *HandlerVideoToSendSearch) HandleVideoDeleted(p *Define.ICP[DataModel.Program]) error {
+func (this *HandlerVideoToSendSearch) HandleVideoDeleted(p *Define.ICP[DataModel.Video]) error {
 
 	if strings.Compare(strings.ToLower(p.ItemType), "video") != 0 {
 		return errors.New("incorrect item type")
@@ -67,25 +67,63 @@ func (this *HandlerVideoToSendSearch) HandleVideoDeleted(p *Define.ICP[DataModel
 	return this.removeDocument(p.ItemId)
 }
 
-func (this *HandlerVideoToSendSearch) HandleVideoEdit(p *Define.ICP[DataModel.Program]) error {
+func (this *HandlerVideoToSendSearch) HandleVideoEdit(p *Define.ICP[DataModel.Video]) error {
 
 	if strings.Compare(p.ItemType, "video") != 0 {
 		return errors.New("incorrect item type")
 	}
-	return this.updateSearchClient(p.ItemId)
+	return this.updateDocument(p.ItemId)
 }
 
-func (this *HandlerVideoToSendSearch) HandleVideoAdd(p *Define.ICP[DataModel.Program]) error {
+func (this *HandlerVideoToSendSearch) HandleVideoAdd(p *Define.ICP[DataModel.Video]) error {
 
 	if strings.Compare(p.ItemType, "program") != 0 {
 		return errors.New("incorrect item type")
 	}
-	return this.updateSearchClient(p.ItemId)
+	return this.addDocument(p.ItemId)
 
 }
 
-func (this *HandlerVideoToSendSearch) updateSearchClient(videoId string) error {
+func (this *HandlerVideoToSendSearch) updateDocument(videoId string) error {
 
+	var o = orm.NewOrm()
+	var video DataModel.Video
+
+	if err := o.QueryTable(&DataModel.Video{}).Filter("Id", videoId).One(&video); err != nil {
+		return err
+	}
+
+	if video.State != 1 {
+		return nil
+	}
+
+	if _, err := o.LoadRelated(&video, "Applicant"); err != nil {
+		return err
+	}
+	//
+	client := meilisearch.NewClient(meilisearch.ClientConfig{
+		Host:    conf.AppConfig.MeiliSearch.ToHost(),
+		APIKey:  conf.AppConfig.MeiliSearch.ApiKey,
+		Timeout: 1000 * 60 * 5,
+	})
+
+	_, err := client.Index(MeiliSearchIndexVideo).UpdateDocuments(&Define.VideoSearchModel{
+		Title:       video.Title,
+		Description: video.Description,
+		Id:          video.Id,
+		CreateTime:  video.Published,
+		Viewer:      video.Viewer,
+		CreatorId:   video.Applicant.Id,
+		CreatorName: video.Applicant.Username,
+		State:       video.State,
+	}, "id")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (this *HandlerVideoToSendSearch) addDocument(videoId string) error {
 	var o = orm.NewOrm()
 	var video DataModel.Video
 
@@ -115,6 +153,7 @@ func (this *HandlerVideoToSendSearch) updateSearchClient(videoId string) error {
 		Viewer:      video.Viewer,
 		CreatorId:   video.Applicant.Id,
 		CreatorName: video.Applicant.Username,
+		State:       video.State,
 	}, "id")
 	if err != nil {
 		return err

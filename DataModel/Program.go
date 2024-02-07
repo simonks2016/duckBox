@@ -23,5 +23,5 @@ type Program struct {
 	CopyrightHolder  string
 	CopyrightLicense string
 	Applicant        *Customer `orm:"rel(fk)"`
-	Tags             []*Tag    `orm:"rel(m2m)"`
+	Tags             []*Tag    `orm:"rel(m2m);rel_table(topic_tags)"`
 }

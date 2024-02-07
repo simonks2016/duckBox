@@ -33,7 +33,7 @@ dev:
   gorse:
     host: 127.0.0.1
     port: 8088
-    api_key: YimiTV@Recommend@001
+    api_key: YimiTV@Recommend@admin@001
   mysql:
     host: 127.0.0.1
     port: 3306
@@ -41,7 +41,7 @@ dev:
     password:
     db: yimitv
   redis:
-    host: 1270.0.1
+    host: 127.0.0.1
     port: 6379
     account:
     password: simonks1012

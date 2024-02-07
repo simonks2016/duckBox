@@ -32,6 +32,6 @@ type Video struct {
 	Remarks   string
 	UploadIP  string    `orm:"column(upload_ip)"`
 	Applicant *Customer `orm:"rel(fk)"`
-	Tags      []*Tag    `orm:"rel(m2m)"`
+	Tags      []*Tag    `orm:"rel(m2m);rel_table(video_tags)"`
 	Program   *Program  `orm:"rel(fk)"`
 }

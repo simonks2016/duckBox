@@ -1,1 +1,0 @@
-{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:85","func":"DuckBox/controllers.Log","level":"error","msg":"send to gorse:Error 1040: Too many connections","time":"2024-01-03T00:06:54+08:00"}

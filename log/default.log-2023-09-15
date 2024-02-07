@@ -1,1 +1,0 @@
-{"file":"/Users/liangyongbin/go/src/DuckBox/controllers/default.go:85","func":"DuckBox/controllers.Log","level":"error","msg":"update cache:json: cannot unmarshal array into Go value of type Define.ICP[DuckBox/models.Video]","time":"2023-09-15T00:30:52+08:00"}

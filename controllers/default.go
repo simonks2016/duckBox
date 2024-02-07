@@ -17,6 +17,7 @@ const (
 
 	MeiliSearchIndexVideo   = "video"
 	MeiliSearchIndexProgram = "program"
+	MeiliSearchIndexChannel = "channel"
 )
 
 var (
