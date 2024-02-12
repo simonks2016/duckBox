@@ -62,6 +62,7 @@ func (this *ProgramCacheControllers) updateCache(p *DataModel.Program, needInser
 	program.ShowSubtitle = p.ShowSubTitle
 	program.Poster = p.Poster
 	program.Score = p.Score
+	program.Viewers = p.Viewer
 	program.Creator = &ViewModel.Creator{
 		Name:       p.Applicant.Username,
 		Id:         p.Applicant.Id,

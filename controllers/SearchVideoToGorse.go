@@ -11,7 +11,6 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/nsqio/go-nsq"
 	"github.com/zhenghaoz/gorse/client"
-	"strings"
 	"time"
 )
 
@@ -43,18 +42,14 @@ func (this *SendVideoToGorse) HandleMessage(message *nsq.Message) error {
 
 	if fun, exist := h[p.Action]; !exist {
 		//log
-		Log("handle program", fmt.Sprintf("the action code is not recognized(%s)", p.Action), LogError)
+		Log("handle video", fmt.Sprintf("the action code is not recognized(%s)", p.Action), LogError)
 		//return error message
 		return errors.New("the action code is not recognized")
 	} else {
-		if strings.Compare(p.ItemId, p.ExtraData.Id) != 0 {
-			//return error message
-			return errors.New("the item ID and data ID in the agreement are not consistent")
-		}
 
 		if err := fun(p.ExtraData); err != nil {
 			//log the error message
-			Log("handle program", err.Error(), LogError)
+			Log("handle video", err.Error(), LogError)
 			//return error message
 			return err
 		}
@@ -97,7 +92,7 @@ func (this *SendVideoToGorse) HandleVideoAdd(dataModel *DataModel.Video) error {
 		category = []string{Define.GorseCategoryVideo}
 	}
 
-	fmt.Println(v.Tags)
+	//fmt.Println(v.Tags)
 
 	if v.Tags != nil && len(v.Tags) > 0 {
 		for _, tag := range v.Tags {
@@ -167,6 +162,7 @@ func (this *SendVideoToGorse) HandleVideoEdit(dataModel *DataModel.Video) error 
 		Labels:     labels,
 	})
 	if err != nil {
+
 		return err
 	}
 

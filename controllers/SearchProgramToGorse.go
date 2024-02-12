@@ -11,7 +11,6 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/nsqio/go-nsq"
 	"github.com/zhenghaoz/gorse/client"
-	"strings"
 	"time"
 )
 
@@ -47,11 +46,6 @@ func (this *SendProgramToGorse) HandleMessage(message *nsq.Message) error {
 		//return error message
 		return errors.New("the action code is not recognized")
 	} else {
-		if strings.Compare(p.ItemId, p.ExtraData.Id) != 0 {
-			//return error message
-			return errors.New("the item ID and data ID in the agreement are not consistent")
-		}
-
 		if err := fun(p.ExtraData); err != nil {
 			//log the error message
 			Log("handle program", err.Error(), LogError)

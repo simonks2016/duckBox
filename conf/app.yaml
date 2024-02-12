@@ -4,8 +4,8 @@ prod:
     address: 172.31.207.179
     port: 4161
   meili_search:
-    address: search.yimi.tv
-    port: 443
+    address: search-intranet.yimi.tv
+    port: 80
     api_key: YimiTVSearchMasterKey001!@
   gorse:
     host: intranet.recommend.yimi.tv

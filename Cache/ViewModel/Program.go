@@ -18,6 +18,7 @@ type Program struct {
 	CreateTime   int64    `json:"create_time"`
 	State        int      `json:"state"`
 	Evaluation   int64    `json:"evaluation"`
+	Viewers      int64    `json:"viewers"`
 
 	Episodes string `json:"episodes"`
 
