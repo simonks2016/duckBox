@@ -51,7 +51,7 @@ func NewEnvelope[T any](EventKind string, payload T) *Envelope[T] {
 func LoadEnvelope[T any](data []byte) (*Envelope[T], error) {
 	var e Envelope[T]
 	// 转码JSON
-	if err := json.Unmarshal(data, e); err != nil {
+	if err := json.Unmarshal(data, &e); err != nil {
 		return nil, err
 	}
 	return &e, nil

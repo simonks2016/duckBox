@@ -10,4 +10,4 @@ require (
 	github.com/nsqio/go-nsq v1.1.1-0.20230918004844-c2c38427f295
 )
 
-require github.com/golang/snappy v0.0.4 // indirect
+require github.com/golang/snappy v1.0.0 // indirect
