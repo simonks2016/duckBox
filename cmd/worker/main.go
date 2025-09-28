@@ -37,6 +37,7 @@ type NSQConsumerPool struct {
 	mu              sync.Mutex
 	wg              sync.WaitGroup
 	ShutdownTimeout time.Duration
+	ctx             context.Context
 }
 
 // 默认值
@@ -86,6 +87,7 @@ func (p *NSQConsumerPool) WithLogger(l *slog.Logger) *NSQConsumerPool {
 func (p *NSQConsumerPool) Start(ctx context.Context, producerPool *producer.NSQPool) error {
 	p.mu.Lock()
 	p.producerPool = producerPool
+	p.ctx = ctx
 	p.mu.Unlock()
 
 	var started []*nsq.Consumer
@@ -244,7 +246,7 @@ func (p *NSQConsumerPool) Stop(ctx context.Context) {
 // wrapHandler 处理消息函数
 func (p *NSQConsumerPool) wrapHandler(pol TopicPolicy, maxAttempts uint16, dlqTopic string) nsq.Handler {
 	return nsq.HandlerFunc(func(m *nsq.Message) error {
-		ctx := context.Background()
+		ctx := p.ctx
 		ctx = WithPool(ctx, p)
 
 		start := time.Now()
