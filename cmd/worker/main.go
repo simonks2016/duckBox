@@ -310,6 +310,14 @@ func (p *NSQConsumerPool) wrapHandler(pol TopicPolicy, maxAttempts uint16, dlqTo
 func (p *NSQConsumerPool) Publish(topic string, msg []byte) error {
 	return p.publishDLQ(topic, msg)
 }
+func (p *NSQConsumerPool) MultiPublish(items ...BatchPublishItem) error {
+	for _, i := range items {
+		if err := p.producerPool.SingleSubmit(i.GetTopic(), i.GetBody()); err != nil {
+			return err
+		}
+	}
+	return nil
+}
 
 // publishDLQ 发送死信
 func (p *NSQConsumerPool) publishDLQ(topic string, body []byte) error {
@@ -355,4 +363,24 @@ func GetPool(ctx context.Context) *NSQConsumerPool {
 		}
 	}
 	return nil
+}
+
+type BatchPublishItem interface {
+	GetTopic() string
+	GetBody() []byte
+}
+
+type d struct {
+	topic string
+	body  []byte
+}
+
+func (d1 *d) GetTopic() string { return d1.topic }
+func (d1 *d) GetBody() []byte  { return d1.body }
+
+func NewPublishItem(topic string, body []byte) BatchPublishItem {
+	return &d{
+		topic: topic,
+		body:  body,
+	}
 }
