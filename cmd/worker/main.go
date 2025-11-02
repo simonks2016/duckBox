@@ -312,7 +312,10 @@ func (p *NSQConsumerPool) Publish(topic string, msg []byte) error {
 }
 func (p *NSQConsumerPool) MultiPublish(items ...BatchPublishItem) error {
 	for _, i := range items {
-		if err := p.producerPool.SingleSubmit(i.GetTopic(), i.GetBody()); err != nil {
+		if err := p.producerPool.CustomSubmit(producer.NewSingleTaskOption(
+			i.GetTopic(),
+			i.GetBody(),
+		).WithDelay(i.GetDelay()).WithRetry(3).WithTimeout(time.Minute * time.Duration(5))); err != nil {
 			return err
 		}
 	}
@@ -368,19 +371,23 @@ func GetPool(ctx context.Context) *NSQConsumerPool {
 type BatchPublishItem interface {
 	GetTopic() string
 	GetBody() []byte
+	GetDelay() time.Duration
 }
 
 type d struct {
 	topic string
 	body  []byte
+	delay time.Duration
 }
 
-func (d1 *d) GetTopic() string { return d1.topic }
-func (d1 *d) GetBody() []byte  { return d1.body }
+func (d1 *d) GetTopic() string        { return d1.topic }
+func (d1 *d) GetBody() []byte         { return d1.body }
+func (d1 *d) GetDelay() time.Duration { return d1.delay }
 
-func NewPublishItem(topic string, body []byte) BatchPublishItem {
+func NewPublishItem(topic string, body []byte, delay time.Duration) BatchPublishItem {
 	return &d{
 		topic: topic,
 		body:  body,
+		delay: delay,
 	}
 }

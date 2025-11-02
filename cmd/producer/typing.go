@@ -2,21 +2,30 @@ package producer
 
 import (
 	"sync"
+	"sync/atomic"
 	"time"
 )
 
-// PublishTask 任务结构
-type PublishTask struct {
-	Topic    string
-	Msg      [][]byte
-	Callback func(error)
-	Retry    int           // 最大重试次数
-	Timeout  time.Duration // 每次尝试的超时时间
+type NSQPool struct {
+	client           *NSQClient
+	tasks            chan *PublishTask
+	quit             chan struct{}
+	wg               sync.WaitGroup
+	closed           atomic.Bool
+	trySend          bool // true: Submit 会用非阻塞入队
+	backoffFn        func(int) time.Duration
+	shutdownDeadline time.Duration
 }
 
-type NSQPool struct {
-	client *NSQClient
-	tasks  chan *PublishTask
-	wg     sync.WaitGroup
-	quit   chan struct{}
+// PoolOption 构造
+type PoolOption func(*NSQPool)
+
+func WithQueueSize(n int) PoolOption {
+	return func(p *NSQPool) { p.tasks = make(chan *PublishTask, n) }
+}
+func WithTrySend(enable bool) PoolOption {
+	return func(p *NSQPool) { p.trySend = enable }
+}
+func WithBackoff(fn func(attempt int) time.Duration) PoolOption {
+	return func(p *NSQPool) { p.backoffFn = fn }
 }
